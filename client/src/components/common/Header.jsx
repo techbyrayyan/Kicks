@@ -11,7 +11,6 @@ import {
   ChevronDown,
   Layers,
   Phone,
-  CheckCircle,
   LogOut,
   ShieldCheck,
   Scale
@@ -20,7 +19,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useCompare } from '../../context/CompareContext';
-import API from '../../services/api';
+import API, { FALLBACK_CATEGORIES } from '../../services/api';
 
 const Header = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -29,7 +28,7 @@ const Header = () => {
   const { compareCount, setIsCompareOpen } = useCompare();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -60,9 +59,13 @@ const Header = () => {
   const fetchCategories = async () => {
     try {
       const { data } = await API.get('/categories');
-      setCategories(data || []);
+      if (Array.isArray(data) && data.length > 0) {
+        setCategories(data);
+      } else {
+        setCategories(FALLBACK_CATEGORIES);
+      }
     } catch (err) {
-      console.error(err);
+      setCategories(FALLBACK_CATEGORIES);
     }
   };
 
@@ -71,10 +74,12 @@ const Header = () => {
       if (searchQuery.trim().length >= 2) {
         try {
           const { data } = await API.get(`/products/search/suggestions?q=${encodeURIComponent(searchQuery)}`);
-          setSuggestions(data || []);
-          setShowSuggestions(true);
+          if (Array.isArray(data)) {
+            setSuggestions(data);
+            setShowSuggestions(true);
+          }
         } catch (err) {
-          console.error(err);
+          setSuggestions([]);
         }
       } else {
         setSuggestions([]);
@@ -163,7 +168,7 @@ const Header = () => {
                       onClick={() => setShowSuggestions(false)}
                       className="flex items-center space-x-3 p-3 hover:bg-slate-50 transition-colors"
                     >
-                      <img src={p.images[0]} alt={p.name} className="w-10 h-10 object-cover rounded-lg bg-slate-100" />
+                      <img src={p.images?.[0]} alt={p.name} className="w-10 h-10 object-cover rounded-lg bg-slate-100" />
                       <div className="flex-1 min-w-0">
                         <h4 className="text-xs font-medium text-slate-900 truncate">{p.name}</h4>
                         <span className="text-xs text-emerald-600 font-semibold">Rs. {p.salePrice > 0 ? p.salePrice : p.price}</span>
@@ -187,7 +192,7 @@ const Header = () => {
                 <ChevronDown className="w-4 h-4 text-slate-400 group-hover:rotate-180 transition-transform" />
               </button>
               <div className="absolute top-full left-0 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform group-hover:translate-y-0 translate-y-2">
-                {categories.map((c) => (
+                {Array.isArray(categories) && categories.map((c) => (
                   <Link
                     key={c._id}
                     to={`/category/${c.slug}`}
@@ -206,8 +211,6 @@ const Header = () => {
 
           {/* Action Icons Right */}
           <div className="flex items-center space-x-4">
-            
-            {/* Wishlist Button */}
             <Link to="/wishlist" className="relative p-2 text-slate-600 hover:text-emerald-600 transition-colors">
               <Heart className="w-5 h-5" />
               {wishlistCount > 0 && (
@@ -217,7 +220,6 @@ const Header = () => {
               )}
             </Link>
 
-            {/* Compare Button */}
             <button
               onClick={() => setIsCompareOpen(true)}
               className="relative p-2 text-slate-600 hover:text-emerald-600 transition-colors hidden sm:block"
@@ -231,7 +233,6 @@ const Header = () => {
               )}
             </button>
 
-            {/* Cart Button */}
             <button
               onClick={() => setIsDrawerOpen(true)}
               className="relative p-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-xl transition-all flex items-center space-x-2"
@@ -245,12 +246,11 @@ const Header = () => {
               )}
             </button>
 
-            {/* Account Profile / Login */}
             {user ? (
               <div className="relative group">
                 <Link to="/account" className="flex items-center space-x-2 p-1.5 rounded-xl hover:bg-slate-100 transition-colors">
                   <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs uppercase">
-                    {user.name.charAt(0)}
+                    {user.name?.charAt(0) || 'U'}
                   </div>
                 </Link>
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -287,39 +287,35 @@ const Header = () => {
               </Link>
             )}
 
-            {/* Mobile Menu Hamburger */}
             <button
               onClick={() => setMobileMenuOpen(true)}
               className="lg:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg"
             >
               <Menu className="w-6 h-6" />
             </button>
-
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu Slide-Over Drawer */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-
           <div className="relative w-4/5 max-w-sm bg-white h-full shadow-2xl flex flex-col z-10 p-6 overflow-y-auto">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <span className="text-lg font-bold text-slate-900">Navigation</span>
-              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-400 hover:text-slate-600">
+              <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-slate-400">
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Mobile Search */}
             <form onSubmit={handleSearchSubmit} className="mt-4 relative">
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-100 border border-slate-200 rounded-xl text-xs outline-none focus:border-emerald-500"
+                className="w-full pl-9 pr-4 py-2 bg-slate-100 border rounded-xl text-xs outline-none"
               />
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
             </form>
@@ -330,7 +326,7 @@ const Header = () => {
               <div className="pt-2 border-t border-slate-100">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Categories</span>
                 <div className="mt-2 space-y-2 pl-2">
-                  {categories.map((c) => (
+                  {Array.isArray(categories) && categories.map((c) => (
                     <Link key={c._id} to={`/category/${c.slug}`} className="block text-xs text-slate-600 hover:text-emerald-600">
                       {c.name}
                     </Link>
@@ -339,21 +335,7 @@ const Header = () => {
               </div>
               <Link to="/about" className="hover:text-emerald-600 pt-2 border-t border-slate-100">About Us</Link>
               <Link to="/contact" className="hover:text-emerald-600">Contact Us</Link>
-              <Link to="/wishlist" className="hover:text-emerald-600">My Wishlist ({wishlistCount})</Link>
             </nav>
-
-            <div className="mt-auto pt-6 border-t border-slate-100">
-              {user ? (
-                <div className="space-y-2">
-                  <Link to="/account" className="block text-xs font-semibold text-slate-900">{user.name}</Link>
-                  <button onClick={logout} className="text-xs text-rose-600 font-medium">Logout</button>
-                </div>
-              ) : (
-                <Link to="/login" className="block w-full py-2.5 bg-emerald-600 text-white text-center rounded-xl font-semibold text-xs">
-                  Login / Register
-                </Link>
-              )}
-            </div>
           </div>
         </div>
       )}

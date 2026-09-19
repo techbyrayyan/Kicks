@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { CompareProvider } from './context/CompareContext';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 // Common UI
 import Header from './components/common/Header';
@@ -67,75 +68,77 @@ const AdminRoute = ({ children }) => {
 
 function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <WishlistProvider>
-          <CompareProvider>
-            <Router>
-              <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
-                <Routes>
-                  
-                  {/* Admin Routes with Separate Admin Layout */}
-                  <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
-                    <Route index element={<AdminDashboard />} />
-                    <Route path="products" element={<AdminProducts />} />
-                    <Route path="products/new" element={<AdminProductEdit />} />
-                    <Route path="products/edit/:id" element={<AdminProductEdit />} />
-                    <Route path="categories" element={<AdminCategories />} />
-                    <Route path="orders" element={<AdminOrders />} />
-                    <Route path="inventory" element={<AdminInventory />} />
-                    <Route path="customers" element={<AdminCustomers />} />
-                    <Route path="reviews" element={<AdminReviews />} />
-                    <Route path="coupons" element={<AdminCoupons />} />
-                    <Route path="messages" element={<AdminMessages />} />
-                  </Route>
+    <ErrorBoundary>
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <CompareProvider>
+              <Router>
+                <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
+                  <Routes>
+                    
+                    {/* Admin Routes with Separate Admin Layout */}
+                    <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+                      <Route index element={<AdminDashboard />} />
+                      <Route path="products" element={<AdminProducts />} />
+                      <Route path="products/new" element={<AdminProductEdit />} />
+                      <Route path="products/edit/:id" element={<AdminProductEdit />} />
+                      <Route path="categories" element={<AdminCategories />} />
+                      <Route path="orders" element={<AdminOrders />} />
+                      <Route path="inventory" element={<AdminInventory />} />
+                      <Route path="customers" element={<AdminCustomers />} />
+                      <Route path="reviews" element={<AdminReviews />} />
+                      <Route path="coupons" element={<AdminCoupons />} />
+                      <Route path="messages" element={<AdminMessages />} />
+                    </Route>
 
-                  {/* Customer Storefront Routes with Main Header & Footer */}
-                  <Route path="*" element={
-                    <>
-                      <Header />
-                      <CartDrawer />
-                      <CompareModal />
-                      <main className="flex-1">
-                        <Routes>
-                          <Route path="/" element={<Home />} />
-                          <Route path="/shop" element={<Shop />} />
-                          <Route path="/category/:slug" element={<CategoryPage />} />
-                          <Route path="/product/:slug" element={<ProductDetails />} />
-                          <Route path="/search" element={<SearchResults />} />
-                          <Route path="/cart" element={<CartPage />} />
-                          <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
-                          <Route path="/wishlist" element={<WishlistPage />} />
-                          <Route path="/about" element={<AboutUs />} />
-                          <Route path="/contact" element={<ContactUs />} />
-                          <Route path="/login" element={<Login />} />
-                          <Route path="/register" element={<Register />} />
-                          <Route path="/forgot-password" element={<ForgotPassword />} />
-                          <Route path="/reset-password" element={<ResetPassword />} />
-                          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                          <Route path="/terms" element={<Terms />} />
-                          <Route path="/refund-policy" element={<RefundPolicy />} />
-                          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                    {/* Customer Storefront Routes with Main Header & Footer */}
+                    <Route path="*" element={
+                      <>
+                        <Header />
+                        <CartDrawer />
+                        <CompareModal />
+                        <main className="flex-1">
+                          <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/shop" element={<Shop />} />
+                            <Route path="/category/:slug" element={<CategoryPage />} />
+                            <Route path="/product/:slug" element={<ProductDetails />} />
+                            <Route path="/search" element={<SearchResults />} />
+                            <Route path="/cart" element={<CartPage />} />
+                            <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+                            <Route path="/wishlist" element={<WishlistPage />} />
+                            <Route path="/about" element={<AboutUs />} />
+                            <Route path="/contact" element={<ContactUs />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/forgot-password" element={<ForgotPassword />} />
+                            <Route path="/reset-password" element={<ResetPassword />} />
+                            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                            <Route path="/terms" element={<Terms />} />
+                            <Route path="/refund-policy" element={<RefundPolicy />} />
+                            <Route path="/shipping-policy" element={<ShippingPolicy />} />
 
-                          {/* Customer Account Routes */}
-                          <Route path="/account" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                          <Route path="/account/orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
-                          <Route path="/account/orders/:id" element={<ProtectedRoute><OrderDetailsPage /></ProtectedRoute>} />
-                          <Route path="/account/addresses" element={<ProtectedRoute><Addresses /></ProtectedRoute>} />
-                          <Route path="/account/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-                        </Routes>
-                      </main>
-                      <Footer />
-                    </>
-                  } />
+                            {/* Customer Account Routes */}
+                            <Route path="/account" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                            <Route path="/account/orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
+                            <Route path="/account/orders/:id" element={<ProtectedRoute><OrderDetailsPage /></ProtectedRoute>} />
+                            <Route path="/account/addresses" element={<ProtectedRoute><Addresses /></ProtectedRoute>} />
+                            <Route path="/account/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                          </Routes>
+                        </main>
+                        <Footer />
+                      </>
+                    } />
 
-                </Routes>
-              </div>
-            </Router>
-          </CompareProvider>
-        </WishlistProvider>
-      </CartProvider>
-    </AuthProvider>
+                  </Routes>
+                </div>
+              </Router>
+            </CompareProvider>
+          </WishlistProvider>
+        </CartProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
