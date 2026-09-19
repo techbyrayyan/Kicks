@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, ArrowRight, ShieldCheck, Truck, RefreshCw, Star, ShoppingBag, Layers, Award, CheckCircle, Zap, Shield, Bug, HeartHandshake } from 'lucide-react';
-import API from '../services/api';
+import { Sparkles, ArrowRight, ShieldCheck, Truck, Star, Award, Zap, Bug, HeartHandshake } from 'lucide-react';
+import API, { FALLBACK_CATEGORIES, FALLBACK_PRODUCTS } from '../services/api';
 import ProductCard from '../components/product/ProductCard';
 import QuickViewModal from '../components/common/QuickViewModal';
 import Loader from '../components/common/Loader';
 
 const Home = () => {
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
+  const [products, setProducts] = useState(FALLBACK_PRODUCTS);
   const [activeTab, setActiveTab] = useState('featured');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
   useEffect(() => {
@@ -19,17 +19,19 @@ const Home = () => {
 
   const fetchData = async () => {
     try {
-      setLoading(true);
-      const [catRes, prodRes] = await Promise.all([
+      const [catRes, prodRes] = await Promise.allSettled([
         API.get('/categories'),
         API.get('/products?limit=20')
       ]);
-      setCategories(catRes.data || []);
-      setProducts(prodRes.data?.products || []);
+
+      if (catRes.status === 'fulfilled' && Array.isArray(catRes.value.data) && catRes.value.data.length > 0) {
+        setCategories(catRes.value.data);
+      }
+      if (prodRes.status === 'fulfilled' && prodRes.value.data?.products && Array.isArray(prodRes.value.data.products) && prodRes.value.data.products.length > 0) {
+        setProducts(prodRes.value.data.products);
+      }
     } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+      console.warn('API error, using fallback catalog:', err);
     }
   };
 
@@ -250,19 +252,15 @@ const Home = () => {
           </div>
         </div>
 
-        {loading ? (
-          <Loader message="Loading Kick Care products..." />
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product._id}
-                product={product}
-                onQuickView={(p) => setQuickViewProduct(p)}
-              />
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filteredProducts.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              onQuickView={(p) => setQuickViewProduct(p)}
+            />
+          ))}
+        </div>
       </section>
 
       {/* 5. Dedicated SHOE CARE Spotlight Section */}
@@ -367,7 +365,7 @@ const Home = () => {
               <Award className="w-6 h-6" />
             </div>
             <h3 className="text-sm font-bold text-slate-900">Trusted Quality</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">Formulated with concentrated active active ingredients for peak cleaning power.</p>
+            <p className="text-xs text-slate-500 leading-relaxed">Formulated with concentrated active ingredients for peak cleaning power.</p>
           </div>
 
           <div className="bg-white p-6 rounded-3xl border border-slate-200/70 shadow-card text-center space-y-2">

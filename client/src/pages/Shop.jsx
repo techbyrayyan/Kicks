@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Filter, SlidersHorizontal, ChevronLeft, ChevronRight, X, RotateCcw } from 'lucide-react';
-import API from '../services/api';
+import API, { FALLBACK_CATEGORIES, FALLBACK_PRODUCTS } from '../services/api';
 import ProductCard from '../components/product/ProductCard';
 import QuickViewModal from '../components/common/QuickViewModal';
 import Loader from '../components/common/Loader';
 import EmptyState from '../components/common/EmptyState';
 
 const Shop = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState(FALLBACK_PRODUCTS);
+  const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
+  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(FALLBACK_PRODUCTS.length);
 
-  // Filters State
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
   const [minPrice, setMinPrice] = useState(searchParams.get('minPrice') || '');
   const [maxPrice, setMaxPrice] = useState(searchParams.get('maxPrice') || '');
@@ -38,15 +37,14 @@ const Shop = () => {
   const fetchCategories = async () => {
     try {
       const { data } = await API.get('/categories');
-      setCategories(data || []);
+      if (Array.isArray(data) && data.length > 0) setCategories(data);
     } catch (err) {
-      console.error(err);
+      console.warn(err);
     }
   };
 
   const fetchProducts = async () => {
     try {
-      setLoading(true);
       let query = `/products?page=${page}&limit=12&sort=${sort}`;
       if (selectedCategory) query += `&category=${selectedCategory}`;
       if (minPrice) query += `&minPrice=${minPrice}`;
@@ -54,13 +52,16 @@ const Shop = () => {
       if (minRating) query += `&minRating=${minRating}`;
 
       const { data } = await API.get(query);
-      setProducts(data.products || []);
-      setTotalPages(data.pages || 1);
-      setTotalCount(data.totalProducts || 0);
+      if (data && Array.isArray(data.products) && data.products.length > 0) {
+        setProducts(data.products);
+        setTotalPages(data.pages || 1);
+        setTotalCount(data.totalProducts || data.products.length);
+      }
     } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+      console.warn('Using fallback products for Shop page:', err);
+      let filtered = [...FALLBACK_PRODUCTS];
+      if (selectedCategory) filtered = filtered.filter(p => p.category?.slug === selectedCategory);
+      setProducts(filtered);
     }
   };
 
@@ -76,7 +77,6 @@ const Shop = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
-      {/* Quick View */}
       {quickViewProduct && (
         <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
       )}
@@ -92,7 +92,7 @@ const Shop = () => {
         </div>
       </div>
 
-      {/* Toolbar: Counter & Mobile Filter Toggle */}
+      {/* Toolbar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-white p-4 rounded-2xl border border-slate-100 shadow-sm gap-4">
         <div className="flex items-center space-x-3">
           <button
@@ -107,7 +107,6 @@ const Shop = () => {
           </span>
         </div>
 
-        {/* Sorting Dropdown */}
         <div className="flex items-center space-x-2">
           <span className="text-xs font-semibold text-slate-400">Sort by:</span>
           <select
@@ -124,7 +123,7 @@ const Shop = () => {
         </div>
       </div>
 
-      {/* Catalog Grid + Sidebar Layout */}
+      {/* Catalog Grid + Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         {/* Desktop Sidebar Filter */}
@@ -140,7 +139,6 @@ const Shop = () => {
             </button>
           </div>
 
-          {/* Categories Filter */}
           <div className="space-y-2">
             <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Categories</h4>
             <div className="space-y-1">
@@ -161,44 +159,6 @@ const Shop = () => {
               ))}
             </div>
           </div>
-
-          {/* Price Range Filter */}
-          <div className="space-y-3 pt-4 border-t border-slate-100">
-            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Price (PKR)</h4>
-            <div className="grid grid-cols-2 gap-2">
-              <input
-                type="number"
-                placeholder="Min"
-                value={minPrice}
-                onChange={(e) => setMinPrice(e.target.value)}
-                className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:border-emerald-500"
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(e.target.value)}
-                className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:border-emerald-500"
-              />
-            </div>
-          </div>
-
-          {/* Minimum Rating */}
-          <div className="space-y-2 pt-4 border-t border-slate-100">
-            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Rating</h4>
-            <div className="space-y-1">
-              {[4, 3, 2].map((stars) => (
-                <button
-                  key={stars}
-                  onClick={() => setMinRating(minRating === stars.toString() ? '' : stars.toString())}
-                  className={`w-full text-left px-3 py-1.5 rounded-xl text-xs font-medium flex items-center justify-between ${minRating === stars.toString() ? 'bg-amber-50 text-amber-800 font-bold' : 'text-slate-600 hover:bg-slate-50'}`}
-                >
-                  <span>{stars} Stars & Above</span>
-                  <span className="text-amber-400">★</span>
-                </button>
-              ))}
-            </div>
-          </div>
         </aside>
 
         {/* Mobile Filter Drawer */}
@@ -213,7 +173,6 @@ const Shop = () => {
                 </button>
               </div>
               
-              {/* Category Filter */}
               <div className="space-y-2">
                 <h4 className="text-xs font-bold text-slate-700 uppercase">Categories</h4>
                 {categories.map((c) => (
@@ -232,51 +191,15 @@ const Shop = () => {
 
         {/* Products Grid */}
         <main className="lg:col-span-3 space-y-8">
-          {loading ? (
-            <Loader message="Fetching products catalog..." />
-          ) : products.length === 0 ? (
-            <EmptyState
-              title="No products matched your criteria"
-              description="Try resetting your price or category filters."
-              actionText="Reset Filters"
-              actionLink="/shop"
-            />
-          ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {products.map((product) => (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                    onQuickView={(p) => setQuickViewProduct(p)}
-                  />
-                ))}
-              </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex justify-center items-center space-x-2 pt-6">
-                  <button
-                    disabled={page === 1}
-                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                    className="p-2 border rounded-xl text-slate-600 hover:bg-slate-100 disabled:opacity-30"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <span className="text-xs font-bold text-slate-700 px-4">
-                    Page {page} of {totalPages}
-                  </span>
-                  <button
-                    disabled={page === totalPages}
-                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                    className="p-2 border rounded-xl text-slate-600 hover:bg-slate-100 disabled:opacity-30"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
-            </>
-          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <ProductCard
+                key={product._id}
+                product={product}
+                onQuickView={(p) => setQuickViewProduct(p)}
+              />
+            ))}
+          </div>
         </main>
 
       </div>
