@@ -561,22 +561,35 @@ const Home = () => {
         </section>
 
         {/* 6. NEWSLETTER BANNER */}
-        <section className="bg-red-50/60 rounded-3xl p-6 sm:p-10 border border-red-100 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+      <section className="relative rounded-3xl overflow-hidden min-h-[200px] sm:min-h-[220px] flex items-center bg-white border border-slate-100 shadow-sm">
+        
+        {/* Background Image: img4.jpeg */}
+        <img
+          src="/img4.jpeg"
+          alt="Subscribe to Our Newsletter"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+
+        {/* Overlaid Content Container */}
+        <div className="relative z-10 w-full p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          
+          {/* Left / Center Text & Icon Block */}
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+            <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 shadow-md">
               <Mail className="w-6 h-6" />
             </div>
 
             <div>
-              <h3 className="text-base sm:text-lg font-black text-slate-900">
+              <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
                 Subscribe to Our Newsletter
               </h3>
-              <p className="text-xs text-slate-500 font-medium">
+              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
                 Get the latest updates, offers and home care tips.
               </p>
             </div>
           </div>
 
+          {/* Form */}
           <div className="w-full md:w-auto flex-1 max-w-md">
             <form onSubmit={handleSubscribe} className="flex items-center gap-2">
               <input
@@ -585,7 +598,7 @@ const Home = () => {
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
                 required
-                className="w-full py-2.5 px-4 bg-white text-xs rounded-full border border-slate-200 focus:outline-none focus:border-red-500 placeholder:text-slate-400"
+                className="w-full py-2.5 px-4 bg-white text-xs rounded-full border border-slate-300 focus:outline-none focus:border-red-500 placeholder:text-slate-400 shadow-sm"
               />
               <button
                 type="submit"
@@ -601,10 +614,9 @@ const Home = () => {
             )}
           </div>
 
-          <div className="hidden lg:block font-serif italic text-2xl font-bold text-red-600 rotate-[-8deg]">
-            Stay Updated
-          </div>
-        </section>
+        </div>
+
+      </section>
 
       </div>
     </div>
