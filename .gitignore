@@ -5,6 +5,7 @@ node_modules
 # production build
 dist
 build
+.next
 
 # environment variables
 .env
