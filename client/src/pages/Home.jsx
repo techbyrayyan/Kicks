@@ -183,16 +183,16 @@ const Home = () => {
   };
 
   return (
-    <div className="space-y-14 pb-16 font-sans">
+    <div className="min-h-screen flex flex-col bg-white text-slate-800 font-sans">
       
       {quickViewProduct && (
         <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
       )}
 
-      {/* 1. HERO BANNER SECTION WITH KICK.JPEG AS FULL CONTAINER BACKGROUND */}
-      <section className="relative rounded-3xl overflow-hidden shadow-sm border border-slate-100 min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] flex items-center bg-white">
+      {/* 1. HERO BANNER SECTION (FULL WIDTH - ATTACHED DIRECTLY TO HEADER WITH NO TOP/LEFT/RIGHT MARGINS) */}
+      <section className="relative w-full overflow-hidden min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] flex items-center bg-white border-b border-slate-100">
         
-        {/* Background Image: kick.jpeg */}
+        {/* Background Image: kick.jpeg (Edge-to-Edge) */}
         <img
           src="/kick.jpeg"
           alt="Kara Asani Zindagi Main"
@@ -200,7 +200,7 @@ const Home = () => {
         />
 
         {/* Overlaid Content Container */}
-        <div className="relative z-10 w-full h-full p-6 sm:p-10 lg:p-12 flex flex-col justify-between min-h-[420px] sm:min-h-[480px] lg:min-h-[520px]">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 p-6 sm:p-10 lg:p-12 flex flex-col justify-between min-h-[420px] sm:min-h-[480px] lg:min-h-[520px]">
           
           {/* Top Left Text Block */}
           <div className="max-w-lg space-y-4 pt-2">
@@ -299,301 +299,305 @@ const Home = () => {
 
       </section>
 
-      {/* 2. SHOP BY CATEGORY SECTION */}
-      <section className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                Shop By Category
-              </h2>
-            </div>
-            <p className="text-xs text-slate-500 mt-1 font-medium">
-              Find the right products for every corner of your home.
-            </p>
-          </div>
+      {/* REST OF PAGE CONTENT */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 space-y-14 w-full">
 
-          <Link
-            to="/shop"
-            className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center space-x-1 group"
-          >
-            <span>View All Categories</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {CATEGORIES_DATA.map((cat) => (
-            <Link
-              key={cat.slug}
-              to={`/category/${cat.slug}`}
-              className={`group p-4 rounded-2xl border ${cat.borderColor} ${cat.bgColor} hover:shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden`}
-            >
-              <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 bg-white p-2 border border-slate-100 flex items-center justify-center">
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
-                />
-              </div>
-
-              <div>
-                <h3 className="text-xs font-bold text-slate-900 group-hover:text-red-600 transition-colors">
-                  {cat.name}
-                </h3>
-                <div className="flex items-center justify-between mt-1 text-[11px] text-slate-400 font-medium">
-                  <span>{cat.count}</span>
-                  <span className="text-red-600 font-bold group-hover:translate-x-1 transition-transform">→</span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* 3. FEATURED PRODUCTS SECTION */}
-      <section className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                Featured Products
-              </h2>
-            </div>
-            <p className="text-xs text-slate-500 mt-1 font-medium">
-              Top picks for a cleaner, healthier home.
-            </p>
-          </div>
-
-          <Link
-            to="/shop"
-            className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center space-x-1 group"
-          >
-            <span>View All Products</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {products.slice(0, 6).map((prod) => (
-            <ProductCard
-              key={prod._id}
-              product={prod}
-              onQuickView={(p) => setQuickViewProduct(p)}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* 4. MID PROMO BANNERS GRID */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-gradient-to-r from-red-50 via-rose-50/60 to-red-100/40 rounded-3xl p-6 sm:p-8 border border-red-100 flex items-center justify-between relative overflow-hidden shadow-sm">
-          <div className="space-y-3 max-w-xs z-10">
-            <h3 className="text-xl sm:text-2xl font-black text-red-600 leading-tight">
-              Expert Care for <br />
-              <span className="text-slate-900">Your Shoes</span>
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed font-medium">
-              Keep your shoes clean, shiny and new with our premium shoe care range.
-            </p>
-            <Link
-              to="/category/shoe-care"
-              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
-            >
-              <span>Shop Shoe Care</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="w-36 sm:w-44 aspect-square relative shrink-0">
-            <img
-              src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80"
-              alt="Shoe Care Products"
-              className="w-full h-full object-contain"
-            />
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-sky-50 via-blue-50/60 to-sky-100/40 rounded-3xl p-6 sm:p-8 border border-sky-100 flex items-center justify-between relative overflow-hidden shadow-sm">
-          <div className="space-y-3 max-w-xs z-10">
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
-              Powerful Cleaning <br />
-              <span className="text-red-600">for a Healthier Home</span>
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed font-medium">
-              Discover our home cleaning range for a spotless home.
-            </p>
-            <Link
-              to="/category/home-cleaning"
-              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
-            >
-              <span>Explore Home Cleaning</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="w-36 sm:w-44 aspect-square relative shrink-0">
-            <img
-              src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80"
-              alt="Home Cleaning Products"
-              className="w-full h-full object-contain"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* 5. WHY CHOOSE US & WHAT OUR CUSTOMERS SAY */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-7 space-y-6">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
-              <h2 className="text-xl font-black text-slate-900">Why Choose Us</h2>
-            </div>
-            <p className="text-xs text-slate-500 mt-1 font-medium">
-              Your trust inspires us to do better every day.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
-              <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-slate-900">Trusted Quality</h4>
-                <p className="text-[11px] text-slate-500 mt-0.5">Premium products you can rely on.</p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
-              <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-slate-900">Effective Products</h4>
-                <p className="text-[11px] text-slate-500 mt-0.5">Designed for real results.</p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
-              <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
-                <Truck className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-slate-900">Fast Delivery</h4>
-                <p className="text-[11px] text-slate-500 mt-0.5">Across Pakistan.</p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
-              <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
-                <Headphones className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-slate-900">Customer Satisfaction</h4>
-                <p className="text-[11px] text-slate-500 mt-0.5">We're here to help.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="lg:col-span-5 space-y-6">
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
-              <h2 className="text-xl font-black text-slate-900">What Our Customers Say</h2>
-            </div>
-            <p className="text-xs text-slate-500 mt-1 font-medium">
-              Real feedback from real customers.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 relative space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-11 h-11 rounded-full bg-red-100 border border-red-200 overflow-hidden shrink-0 flex items-center justify-center font-bold text-red-600 text-sm">
-                AK
-              </div>
-              <div>
-                <div className="flex items-center text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <p className="text-xs text-slate-600 italic font-medium leading-relaxed">
-              "Kick products are amazing! My shoes have never looked this clean. Highly recommended!"
-            </p>
-
-            <div className="flex items-center justify-between pt-2 border-t border-slate-200/60">
-              <div>
-                <h5 className="text-xs font-bold text-slate-900">Ayesha Khan</h5>
-                <span className="text-[10px] text-slate-400">Lahore</span>
-              </div>
-
+        {/* 2. SHOP BY CATEGORY SECTION */}
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
               <div className="flex items-center space-x-2">
-                <button className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600">
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600">
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+                <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                  Shop By Category
+                </h2>
+              </div>
+              <p className="text-xs text-slate-500 mt-1 font-medium">
+                Find the right products for every corner of your home.
+              </p>
+            </div>
+
+            <Link
+              to="/shop"
+              className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center space-x-1 group"
+            >
+              <span>View All Categories</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {CATEGORIES_DATA.map((cat) => (
+              <Link
+                key={cat.slug}
+                to={`/category/${cat.slug}`}
+                className={`group p-4 rounded-2xl border ${cat.borderColor} ${cat.bgColor} hover:shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden`}
+              >
+                <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 bg-white p-2 border border-slate-100 flex items-center justify-center">
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
+                  />
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-bold text-slate-900 group-hover:text-red-600 transition-colors">
+                    {cat.name}
+                  </h3>
+                  <div className="flex items-center justify-between mt-1 text-[11px] text-slate-400 font-medium">
+                    <span>{cat.count}</span>
+                    <span className="text-red-600 font-bold group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* 3. FEATURED PRODUCTS SECTION */}
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center space-x-2">
+                <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                  Featured Products
+                </h2>
+              </div>
+              <p className="text-xs text-slate-500 mt-1 font-medium">
+                Top picks for a cleaner, healthier home.
+              </p>
+            </div>
+
+            <Link
+              to="/shop"
+              className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center space-x-1 group"
+            >
+              <span>View All Products</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {products.slice(0, 6).map((prod) => (
+              <ProductCard
+                key={prod._id}
+                product={prod}
+                onQuickView={(p) => setQuickViewProduct(p)}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* 4. MID PROMO BANNERS GRID */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-gradient-to-r from-red-50 via-rose-50/60 to-red-100/40 rounded-3xl p-6 sm:p-8 border border-red-100 flex items-center justify-between relative overflow-hidden shadow-sm">
+            <div className="space-y-3 max-w-xs z-10">
+              <h3 className="text-xl sm:text-2xl font-black text-red-600 leading-tight">
+                Expert Care for <br />
+                <span className="text-slate-900">Your Shoes</span>
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                Keep your shoes clean, shiny and new with our premium shoe care range.
+              </p>
+              <Link
+                to="/category/shoe-care"
+                className="inline-flex items-center space-x-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
+              >
+                <span>Shop Shoe Care</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="w-36 sm:w-44 aspect-square relative shrink-0">
+              <img
+                src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80"
+                alt="Shoe Care Products"
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-sky-50 via-blue-50/60 to-sky-100/40 rounded-3xl p-6 sm:p-8 border border-sky-100 flex items-center justify-between relative overflow-hidden shadow-sm">
+            <div className="space-y-3 max-w-xs z-10">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
+                Powerful Cleaning <br />
+                <span className="text-red-600">for a Healthier Home</span>
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                Discover our home cleaning range for a spotless home.
+              </p>
+              <Link
+                to="/category/home-cleaning"
+                className="inline-flex items-center space-x-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
+              >
+                <span>Explore Home Cleaning</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="w-36 sm:w-44 aspect-square relative shrink-0">
+              <img
+                src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80"
+                alt="Home Cleaning Products"
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* 5. WHY CHOOSE US & WHAT OUR CUSTOMERS SAY */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7 space-y-6">
+            <div>
+              <div className="flex items-center space-x-2">
+                <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
+                <h2 className="text-xl font-black text-slate-900">Why Choose Us</h2>
+              </div>
+              <p className="text-xs text-slate-500 mt-1 font-medium">
+                Your trust inspires us to do better every day.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+                <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900">Trusted Quality</h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Premium products you can rely on.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+                <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900">Effective Products</h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Designed for real results.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+                <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
+                  <Truck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900">Fast Delivery</h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Across Pakistan.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+                <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
+                  <Headphones className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900">Customer Satisfaction</h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">We're here to help.</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* 6. NEWSLETTER BANNER */}
-      <section className="bg-red-50/60 rounded-3xl p-6 sm:p-10 border border-red-100 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-            <Mail className="w-6 h-6" />
+          <div className="lg:col-span-5 space-y-6">
+            <div>
+              <div className="flex items-center space-x-2">
+                <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
+                <h2 className="text-xl font-black text-slate-900">What Our Customers Say</h2>
+              </div>
+              <p className="text-xs text-slate-500 mt-1 font-medium">
+                Real feedback from real customers.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 relative space-y-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-11 h-11 rounded-full bg-red-100 border border-red-200 overflow-hidden shrink-0 flex items-center justify-center font-bold text-red-600 text-sm">
+                  AK
+                </div>
+                <div>
+                  <div className="flex items-center text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-600 italic font-medium leading-relaxed">
+                "Kick products are amazing! My shoes have never looked this clean. Highly recommended!"
+              </p>
+
+              <div className="flex items-center justify-between pt-2 border-t border-slate-200/60">
+                <div>
+                  <h5 className="text-xs font-bold text-slate-900">Ayesha Khan</h5>
+                  <span className="text-[10px] text-slate-400">Lahore</span>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <button className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600">
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600">
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. NEWSLETTER BANNER */}
+        <section className="bg-red-50/60 rounded-3xl p-6 sm:p-10 border border-red-100 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+              <Mail className="w-6 h-6" />
+            </div>
+
+            <div>
+              <h3 className="text-base sm:text-lg font-black text-slate-900">
+                Subscribe to Our Newsletter
+              </h3>
+              <p className="text-xs text-slate-500 font-medium">
+                Get the latest updates, offers and home care tips.
+              </p>
+            </div>
           </div>
 
-          <div>
-            <h3 className="text-base sm:text-lg font-black text-slate-900">
-              Subscribe to Our Newsletter
-            </h3>
-            <p className="text-xs text-slate-500 font-medium">
-              Get the latest updates, offers and home care tips.
-            </p>
+          <div className="w-full md:w-auto flex-1 max-w-md">
+            <form onSubmit={handleSubscribe} className="flex items-center gap-2">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                required
+                className="w-full py-2.5 px-4 bg-white text-xs rounded-full border border-slate-200 focus:outline-none focus:border-red-500 placeholder:text-slate-400"
+              />
+              <button
+                type="submit"
+                className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-sm"
+              >
+                Subscribe
+              </button>
+            </form>
+            {newsletterStatus && (
+              <p className="text-[11px] text-red-600 font-bold mt-1 text-center md:text-left">
+                {newsletterStatus}
+              </p>
+            )}
           </div>
-        </div>
 
-        <div className="w-full md:w-auto flex-1 max-w-md">
-          <form onSubmit={handleSubscribe} className="flex items-center gap-2">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              value={newsletterEmail}
-              onChange={(e) => setNewsletterEmail(e.target.value)}
-              required
-              className="w-full py-2.5 px-4 bg-white text-xs rounded-full border border-slate-200 focus:outline-none focus:border-red-500 placeholder:text-slate-400"
-            />
-            <button
-              type="submit"
-              className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-sm"
-            >
-              Subscribe
-            </button>
-          </form>
-          {newsletterStatus && (
-            <p className="text-[11px] text-red-600 font-bold mt-1 text-center md:text-left">
-              {newsletterStatus}
-            </p>
-          )}
-        </div>
+          <div className="hidden lg:block font-serif italic text-2xl font-bold text-red-600 rotate-[-8deg]">
+            Stay Updated
+          </div>
+        </section>
 
-        <div className="hidden lg:block font-serif italic text-2xl font-bold text-red-600 rotate-[-8deg]">
-          Stay Updated
-        </div>
-      </section>
-
+      </div>
     </div>
   );
 };

@@ -194,118 +194,119 @@ export default function HomePage() {
         <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
       )}
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16 space-y-14 w-full">
+      {/* 1. HERO BANNER SECTION (FULL WIDTH - ATTACHED DIRECTLY TO HEADER WITH NO TOP/LEFT/RIGHT MARGINS) */}
+      <section className="relative w-full overflow-hidden min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] flex items-center bg-white border-b border-slate-100">
         
-        {/* 1. HERO BANNER SECTION WITH KICK.JPEG AS FULL CONTAINER BACKGROUND */}
-        <section className="relative rounded-3xl overflow-hidden shadow-sm border border-slate-100 min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] flex items-center bg-white">
+        {/* Background Image: kick.jpeg (Edge-to-Edge) */}
+        <img
+          src="/kick.jpeg"
+          alt="Kara Asani Zindagi Main"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+
+        {/* Overlaid Content Container */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 p-6 sm:p-10 lg:p-12 flex flex-col justify-between min-h-[420px] sm:min-h-[480px] lg:min-h-[520px]">
           
-          {/* Background Image: kick.jpeg */}
-          <img
-            src="/kick.jpeg"
-            alt="Kara Asani Zindagi Main"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
-
-          {/* Overlaid Content Container */}
-          <div className="relative z-10 w-full h-full p-6 sm:p-10 lg:p-12 flex flex-col justify-between min-h-[420px] sm:min-h-[480px] lg:min-h-[520px]">
+          {/* Top Left Text Block */}
+          <div className="max-w-lg space-y-4 pt-2">
             
-            {/* Top Left Text Block */}
-            <div className="max-w-lg space-y-4 pt-2">
-              
-              {/* Red Pill Badge */}
-              <div className="inline-block px-3.5 py-1 bg-red-600 text-white rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider shadow-sm">
-                PREMIUM HOME CARE PRODUCTS
-              </div>
-
-              {/* Main Title */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.08]">
-                Kara Asani <br />
-                Zindagi Main
-              </h1>
-
-              {/* Subtitle */}
-              <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed max-w-md">
-                Clean Homes. Healthy Lives. Discover our wide range of high-quality home care products designed to make your life easier and cleaner.
-              </p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <Link
-                  href="/shop"
-                  className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs tracking-wide transition-colors flex items-center space-x-2 shadow-sm"
-                >
-                  <span>Shop Now</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-
-                <Link
-                  href="/shop"
-                  className="px-6 py-2.5 bg-white border border-red-600 text-red-600 hover:bg-red-50 rounded-full font-bold text-xs tracking-wide transition-colors"
-                >
-                  Explore Categories
-                </Link>
-              </div>
-
+            {/* Red Pill Badge */}
+            <div className="inline-block px-3.5 py-1 bg-red-600 text-white rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider shadow-sm">
+              PREMIUM HOME CARE PRODUCTS
             </div>
 
-            {/* Bottom Row: 4 Feature Items (Left) + Carousel Arrows (Right) */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-6">
-              
-              {/* 4 Feature Items */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
-                <div className="flex items-center space-x-2">
-                  <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
-                    <ShieldCheck className="w-4 h-4" />
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
-                    Premium Quality Products
-                  </span>
-                </div>
+            {/* Main Title */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.08]">
+              Kara Asani <br />
+              Zindagi Main
+            </h1>
 
-                <div className="flex items-center space-x-2">
-                  <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
-                    <Truck className="w-4 h-4" />
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
-                    Fast Delivery Across Pakistan
-                  </span>
-                </div>
+            {/* Subtitle */}
+            <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed max-w-md">
+              Clean Homes. Healthy Lives. Discover our wide range of high-quality home care products designed to make your life easier and cleaner.
+            </p>
 
-                <div className="flex items-center space-x-2">
-                  <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
-                    <ShieldCheck className="w-4 h-4" />
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
-                    Secure Shopping 100% Safe
-                  </span>
-                </div>
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <Link
+                href="/shop"
+                className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs tracking-wide transition-colors flex items-center space-x-2 shadow-sm"
+              >
+                <span>Shop Now</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
 
-                <div className="flex items-center space-x-2">
-                  <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
-                    <Headphones className="w-4 h-4" />
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
-                    24/7 Customer Support
-                  </span>
-                </div>
-              </div>
-
-              {/* Carousel Arrows */}
-              <div className="flex items-center space-x-2 self-end">
-                <button className="w-7 h-7 bg-white text-slate-700 hover:text-red-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm transition-colors">
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button className="w-7 h-7 bg-white text-slate-700 hover:text-red-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm transition-colors">
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-
+              <Link
+                href="/shop"
+                className="px-6 py-2.5 bg-white border border-red-600 text-red-600 hover:bg-red-50 rounded-full font-bold text-xs tracking-wide transition-colors"
+              >
+                Explore Categories
+              </Link>
             </div>
 
           </div>
 
-        </section>
+          {/* Bottom Row: 4 Feature Items (Left) + Carousel Arrows (Right) */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-6">
+            
+            {/* 4 Feature Items */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
+                  Premium Quality Products
+                </span>
+              </div>
 
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
+                  <Truck className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
+                  Fast Delivery Across Pakistan
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
+                  Secure Shopping 100% Safe
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
+                  <Headphones className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
+                  24/7 Customer Support
+                </span>
+              </div>
+            </div>
+
+            {/* Carousel Arrows */}
+            <div className="flex items-center space-x-2 self-end">
+              <button className="w-7 h-7 bg-white text-slate-700 hover:text-red-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm transition-colors">
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button className="w-7 h-7 bg-white text-slate-700 hover:text-red-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm transition-colors">
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* REST OF PAGE CONTENT */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 space-y-14 w-full">
+        
         {/* 2. SHOP BY CATEGORY SECTION */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
