@@ -392,11 +392,22 @@ const Home = () => {
 
         {/* 4. MID PROMO BANNERS GRID */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gradient-to-r from-red-50 via-rose-50/60 to-red-100/40 rounded-3xl p-6 sm:p-8 border border-red-100 flex items-center justify-between relative overflow-hidden shadow-sm">
-            <div className="space-y-3 max-w-xs z-10">
-              <h3 className="text-xl sm:text-2xl font-black text-red-600 leading-tight">
+          
+          {/* Banner 1: Shoe Care */}
+          <div className="relative rounded-3xl overflow-hidden border border-slate-100 min-h-[220px] sm:min-h-[250px] flex items-center bg-white shadow-sm group">
+            
+            {/* Background Image: promo-shoe.jpg */}
+            <img
+              src="/promo-shoe.jpg"
+              alt="Expert Care for Your Shoes"
+              className="absolute inset-0 w-full h-full object-cover object-right"
+            />
+
+            {/* Content Overlay */}
+            <div className="relative z-10 p-6 sm:p-8 max-w-xs space-y-3">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
                 Expert Care for <br />
-                <span className="text-slate-900">Your Shoes</span>
+                <span className="text-red-600">Your Shoes</span>
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed font-medium">
                 Keep your shoes clean, shiny and new with our premium shoe care range.
@@ -410,20 +421,23 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="w-36 sm:w-44 aspect-square relative shrink-0">
-              <img
-                src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80"
-                alt="Shoe Care Products"
-                className="w-full h-full object-contain"
-              />
-            </div>
           </div>
 
-          <div className="bg-gradient-to-r from-sky-50 via-blue-50/60 to-sky-100/40 rounded-3xl p-6 sm:p-8 border border-sky-100 flex items-center justify-between relative overflow-hidden shadow-sm">
-            <div className="space-y-3 max-w-xs z-10">
+          {/* Banner 2: Home Cleaning */}
+          <div className="relative rounded-3xl overflow-hidden border border-slate-100 min-h-[220px] sm:min-h-[250px] flex items-center bg-white shadow-sm group">
+            
+            {/* Background Image: promo-clean.jpg */}
+            <img
+              src="/promo-clean.jpg"
+              alt="Powerful Cleaning for a Healthier Home"
+              className="absolute inset-0 w-full h-full object-cover object-right"
+            />
+
+            {/* Content Overlay */}
+            <div className="relative z-10 p-6 sm:p-8 max-w-xs space-y-3">
               <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
                 Powerful Cleaning <br />
-                <span className="text-red-600">for a Healthier Home</span>
+                <span className="text-slate-900">for a Healthier Home</span>
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed font-medium">
                 Discover our home cleaning range for a spotless home.
@@ -437,14 +451,8 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="w-36 sm:w-44 aspect-square relative shrink-0">
-              <img
-                src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80"
-                alt="Home Cleaning Products"
-                className="w-full h-full object-contain"
-              />
-            </div>
           </div>
+
         </section>
 
         {/* 5. WHY CHOOSE US & WHAT OUR CUSTOMERS SAY */}
