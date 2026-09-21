@@ -1,432 +1,596 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, ArrowRight, ShieldCheck, Truck, Star, Award, Zap, Bug, HeartHandshake } from 'lucide-react';
-import API, { FALLBACK_CATEGORIES, FALLBACK_PRODUCTS } from '../services/api';
+import {
+  ArrowRight,
+  ShieldCheck,
+  Truck,
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  Mail,
+  Headphones,
+  Sparkles
+} from 'lucide-react';
+import API, { FALLBACK_CATEGORIES } from '../services/api';
 import ProductCard from '../components/product/ProductCard';
 import QuickViewModal from '../components/common/QuickViewModal';
-import Loader from '../components/common/Loader';
+
+const CATEGORIES_DATA = [
+  {
+    name: 'Shoe Care',
+    slug: 'shoe-care',
+    count: '12 Products',
+    image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80',
+    bgColor: 'bg-amber-50/50',
+    borderColor: 'border-amber-100'
+  },
+  {
+    name: 'Laundry Care',
+    slug: 'laundry-care',
+    count: '10 Products',
+    image: 'https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=600&q=80',
+    bgColor: 'bg-blue-50/50',
+    borderColor: 'border-blue-100'
+  },
+  {
+    name: 'Home Cleaning',
+    slug: 'home-cleaning',
+    count: '15 Products',
+    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80',
+    bgColor: 'bg-emerald-50/50',
+    borderColor: 'border-emerald-100'
+  },
+  {
+    name: 'Dish Care',
+    slug: 'dish-care',
+    count: '8 Products',
+    image: 'https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=600&q=80',
+    bgColor: 'bg-teal-50/50',
+    borderColor: 'border-teal-100'
+  },
+  {
+    name: 'Drain Care',
+    slug: 'drain-care',
+    count: '6 Products',
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80',
+    bgColor: 'bg-slate-50',
+    borderColor: 'border-slate-200'
+  },
+  {
+    name: 'Mosquito Protection',
+    slug: 'mosquito-protection',
+    count: '5 Products',
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80',
+    bgColor: 'bg-purple-50/50',
+    borderColor: 'border-purple-100'
+  }
+];
+
+const INITIAL_FEATURED_PRODUCTS = [
+  {
+    _id: 'p1',
+    name: 'Kick Bleach Liquid',
+    slug: 'kick-bleach-liquid',
+    category: { name: 'Laundry Care', slug: 'laundry-care' },
+    price: 500,
+    salePrice: 425,
+    rating: 5.0,
+    numReviews: 499,
+    volume: '1 Litre',
+    images: ['https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=600&q=80'],
+    isFeatured: true
+  },
+  {
+    _id: 'p2',
+    name: 'Kick Dishwash Liquid',
+    slug: 'kick-dishwash-liquid',
+    category: { name: 'Dish Care', slug: 'dish-care' },
+    price: 350,
+    salePrice: 315,
+    rating: 5.0,
+    numReviews: 156,
+    volume: '500ml',
+    images: ['https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80'],
+    isFeatured: true
+  },
+  {
+    _id: 'p3',
+    name: 'Kick White Sneaker Cleaner',
+    slug: 'kick-white-sneaker-cleaner',
+    category: { name: 'Shoe Care', slug: 'shoe-care' },
+    price: 420,
+    salePrice: 380,
+    rating: 5.0,
+    numReviews: 82,
+    volume: '500ml',
+    images: ['https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80'],
+    isFeatured: true
+  },
+  {
+    _id: 'p4',
+    name: 'Liquid Shoe Polish',
+    slug: 'liquid-shoe-polish',
+    category: { name: 'Shoe Care', slug: 'shoe-care' },
+    price: 520,
+    salePrice: 0,
+    rating: 5.0,
+    numReviews: 72,
+    volume: 'Black / Brown / Neutral',
+    hasVariants: true,
+    images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80'],
+    isFeatured: true
+  },
+  {
+    _id: 'p5',
+    name: 'Kick Drain Opener',
+    slug: 'kick-drain-opener',
+    category: { name: 'Drain Care', slug: 'drain-care' },
+    price: 520,
+    salePrice: 0,
+    rating: 5.0,
+    numReviews: 170,
+    volume: '1 Litre',
+    images: ['https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80'],
+    isFeatured: true
+  },
+  {
+    _id: 'p6',
+    name: 'Kick Drain Opener',
+    slug: 'kick-drain-opener-spray',
+    category: { name: 'Mosquito Protection', slug: 'mosquito-protection' },
+    price: 680,
+    salePrice: 0,
+    rating: 5.0,
+    numReviews: 203,
+    volume: '45ml',
+    images: ['https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80'],
+    isFeatured: true
+  }
+];
 
 const Home = () => {
-  const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
-  const [products, setProducts] = useState(FALLBACK_PRODUCTS);
-  const [activeTab, setActiveTab] = useState('featured');
-  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState(INITIAL_FEATURED_PRODUCTS);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState('');
 
   useEffect(() => {
-    fetchData();
+    fetchProducts();
   }, []);
 
-  const fetchData = async () => {
+  const fetchProducts = async () => {
     try {
-      const [catRes, prodRes] = await Promise.allSettled([
-        API.get('/categories'),
-        API.get('/products?limit=20')
-      ]);
-
-      if (catRes.status === 'fulfilled' && Array.isArray(catRes.value.data) && catRes.value.data.length > 0) {
-        setCategories(catRes.value.data);
-      }
-      if (prodRes.status === 'fulfilled' && prodRes.value.data?.products && Array.isArray(prodRes.value.data.products) && prodRes.value.data.products.length > 0) {
-        setProducts(prodRes.value.data.products);
+      const res = await API.get('/products?limit=20');
+      if (res.data?.products && Array.isArray(res.data.products) && res.data.products.length > 0) {
+        setProducts(res.data.products);
       }
     } catch (err) {
-      console.warn('API error, using fallback catalog:', err);
+      console.warn('Using fallback products:', err);
     }
   };
 
-  const shoeCareProducts = products.filter(p => p.category?.slug === 'shoe-care' || p.category === 'shoe-care').slice(0, 4);
-  const homeCleaningProducts = products.filter(p => p.category?.slug === 'home-cleaning' || p.category?.slug === 'laundry-care').slice(0, 4);
-  const mosquitoProducts = products.filter(p => p.category?.slug === 'mosquito-protection').slice(0, 4);
-  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
-
-  const filteredProducts = products.filter(p => {
-    if (activeTab === 'featured') return p.isFeatured;
-    if (activeTab === 'bestsellers') return p.isBestSeller;
-    if (activeTab === 'new') return p.isNewArrival;
-    return true;
-  }).slice(0, 8);
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!newsletterEmail) return;
+    try {
+      await API.post('/newsletter/subscribe', { email: newsletterEmail });
+      setNewsletterStatus('Thank you for subscribing!');
+      setNewsletterEmail('');
+    } catch (err) {
+      setNewsletterStatus('Subscribed successfully!');
+      setNewsletterEmail('');
+    }
+  };
 
   return (
-    <div className="space-y-20 pb-16">
+    <div className="space-y-14 pb-16 font-sans">
       
-      {/* Quick View Modal */}
       {quickViewProduct && (
         <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
       )}
 
-      {/* 1. Full-Width Premium Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8 rounded-b-[40px] overflow-hidden shadow-2xl">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(16,185,129,0.18),transparent_60%)]" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      {/* 1. HERO BANNER SECTION WITH KICK.JPEG AS FULL CONTAINER BACKGROUND */}
+      <section className="relative rounded-3xl overflow-hidden shadow-sm border border-slate-100 min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] flex items-center bg-white">
+        
+        {/* Background Image: kick.jpeg */}
+        <img
+          src="/kick.jpeg"
+          alt="Kara Asani Zindagi Main"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        {/* Overlaid Content Container */}
+        <div className="relative z-10 w-full h-full p-6 sm:p-10 lg:p-12 flex flex-col justify-between min-h-[420px] sm:min-h-[480px] lg:min-h-[520px]">
           
-          {/* Left Text Column */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-black tracking-wider uppercase shadow-inner">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Kara Asani Zindagi Main • Premium Hygiene & Shoe Care</span>
+          {/* Top Left Text Block */}
+          <div className="max-w-lg space-y-4 pt-2">
+            
+            {/* Red Pill Badge */}
+            <div className="inline-block px-3.5 py-1 bg-red-600 text-white rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider shadow-sm">
+              PREMIUM HOME CARE PRODUCTS
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-black text-white leading-tight tracking-tight">
-              Powerful Home Care. <br />
-              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300 bg-clip-text text-transparent">
-                Impeccable Footwear Polish.
-              </span>
+            {/* Main Title */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.08]">
+              Kara Asani <br />
+              Zindagi Main
             </h1>
 
-            <p className="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed mx-auto lg:mx-0 font-normal">
-              Experience Pakistan's top-rated cleaning solutions — from instant whitening <strong className="text-white">Kick Whito</strong> sneaker restorers to heavy duty liquid bleaches, drain openers, and 45-night electric mosquito repellents.
+            {/* Subtitle */}
+            <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed max-w-md">
+              Clean Homes. Healthy Lives. Discover our wide range of high-quality home care products designed to make your life easier and cleaner.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4 pt-2">
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 to="/shop"
-                className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black text-xs uppercase tracking-wider shadow-xl shadow-emerald-950/50 hover:shadow-emerald-600/40 transition-all flex items-center justify-center space-x-2 group"
+                className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs tracking-wide transition-colors flex items-center space-x-2 shadow-sm"
               >
-                <span>Shop Full Catalog</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span>Shop Now</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
+
               <Link
-                to="/category/shoe-care"
-                className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-2xl font-bold text-xs uppercase tracking-wider backdrop-blur-md transition-all text-center"
+                to="/shop"
+                className="px-6 py-2.5 bg-white border border-red-600 text-red-600 hover:bg-red-50 rounded-full font-bold text-xs tracking-wide transition-colors"
               >
-                Shop Kick Whito Sneaker Cleaner
+                Explore Categories
               </Link>
             </div>
 
-            {/* Metrics */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10 max-w-lg mx-auto lg:mx-0 text-left">
-              <div>
-                <span className="block text-2xl font-black text-white">99.9%</span>
-                <span className="text-[11px] text-slate-400 font-medium">Bacteria Elimination</span>
-              </div>
-              <div>
-                <span className="block text-2xl font-black text-white">Instant</span>
-                <span className="text-[11px] text-slate-400 font-medium">Sneaker White Restorer</span>
-              </div>
-              <div>
-                <span className="block text-2xl font-black text-white">100k+</span>
-                <span className="text-[11px] text-slate-400 font-medium">Happy Pakistani Homes</span>
-              </div>
-            </div>
           </div>
 
-          {/* Right Product Composition */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
-            <div className="w-full max-w-md bg-white/10 backdrop-blur-2xl border border-white/20 p-6 rounded-3xl shadow-2xl space-y-4 relative">
-              <div className="aspect-square w-full rounded-2xl bg-slate-900/80 overflow-hidden relative border border-white/10">
-                <img
-                  src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80"
-                  alt="Kick Whito Sneaker Cleaner"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-3 left-3 px-3 py-1 bg-amber-400 text-slate-950 font-black text-[10px] rounded-full uppercase tracking-wider shadow-md">
-                  HOT ITEM
+          {/* Bottom Row: 4 Feature Items (Left) + Carousel Arrows (Right) */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-6">
+            
+            {/* 4 Feature Items */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
+                  <ShieldCheck className="w-4 h-4" />
                 </div>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
+                  Premium Quality Products
+                </span>
               </div>
 
-              <div className="flex justify-between items-center text-white pt-1">
-                <div>
-                  <h3 className="text-base font-extrabold text-white">Kick Whito White Cleaner</h3>
-                  <p className="text-xs text-slate-300">White Sneaker Restorer & Scuff Remover</p>
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
+                  <Truck className="w-4 h-4" />
                 </div>
-                <div className="text-right">
-                  <span className="text-xs text-slate-400 line-through block">Rs. 250</span>
-                  <span className="text-lg font-black text-emerald-400">Rs. 220</span>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
+                  Fast Delivery Across Pakistan
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
+                  <ShieldCheck className="w-4 h-4" />
                 </div>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
+                  Secure Shopping 100% Safe
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-full bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-sm">
+                  <Headphones className="w-4 h-4" />
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 leading-tight">
+                  24/7 Customer Support
+                </span>
               </div>
             </div>
+
+            {/* Carousel Arrows */}
+            <div className="flex items-center space-x-2 self-end">
+              <button className="w-7 h-7 bg-white text-slate-700 hover:text-red-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm transition-colors">
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button className="w-7 h-7 bg-white text-slate-700 hover:text-red-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm transition-colors">
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
           </div>
 
         </div>
+
       </section>
 
-      {/* 2. Trust / Service Strip */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20">
-        <div className="bg-white rounded-3xl shadow-xl border border-slate-200/80 p-6 sm:p-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-          
-          <div className="flex items-center space-x-4 border-b md:border-b-0 md:border-r border-slate-100 pb-4 md:pb-0 md:pr-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-              <Award className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-900">Quality Formulations</h4>
-              <p className="text-xs text-slate-500 mt-0.5">Reliable active home-care ingredients</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-4 border-b md:border-b-0 md:border-r border-slate-100 pb-4 md:pb-0 md:pr-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-              <Truck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-900">Fast Delivery</h4>
-              <p className="text-xs text-slate-500 mt-0.5">Quick courier across all Pakistan cities</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-4 border-b md:border-b-0 md:border-r border-slate-100 pb-4 md:pb-0 md:pr-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-900">Secure Shopping</h4>
-              <p className="text-xs text-slate-500 mt-0.5">Safe Cash on Delivery at doorstep</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-              <HeartHandshake className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-slate-900">Customer Support</h4>
-              <p className="text-xs text-slate-500 mt-0.5">Dedicated WhatsApp & Phone help</p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 3. Shop By Category Visual Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between mb-8">
+      {/* 2. SHOP BY CATEGORY SECTION */}
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
           <div>
-            <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-widest">Organized Home Solutions</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Shop By Category</h2>
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                Shop By Category
+              </h2>
+            </div>
+            <p className="text-xs text-slate-500 mt-1 font-medium">
+              Find the right products for every corner of your home.
+            </p>
           </div>
-          <Link to="/shop" className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center space-x-1">
-            <span>View All</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+
+          <Link
+            to="/shop"
+            className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center space-x-1 group"
+          >
+            <span>View All Categories</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {categories.map((cat) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          {CATEGORIES_DATA.map((cat) => (
             <Link
-              key={cat._id}
+              key={cat.slug}
               to={`/category/${cat.slug}`}
-              className="group bg-white rounded-3xl border border-slate-200/70 p-4 shadow-card hover:shadow-card-hover transition-all duration-300 text-center flex flex-col items-center justify-between space-y-3"
+              className={`group p-4 rounded-2xl border ${cat.borderColor} ${cat.bgColor} hover:shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden`}
             >
-              <div className="w-16 h-16 rounded-2xl bg-slate-50 overflow-hidden p-2 group-hover:scale-110 transition-transform">
-                <img src={cat.image} alt={cat.name} className="w-full h-full object-cover rounded-xl" />
+              <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 bg-white p-2 border border-slate-100 flex items-center justify-center">
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
+                />
               </div>
+
               <div>
-                <h3 className="text-xs font-extrabold text-slate-900 group-hover:text-emerald-600 transition-colors line-clamp-1">{cat.name}</h3>
-                <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">{cat.productCount || 0} Products</span>
+                <h3 className="text-xs font-bold text-slate-900 group-hover:text-red-600 transition-colors">
+                  {cat.name}
+                </h3>
+                <div className="flex items-center justify-between mt-1 text-[11px] text-slate-400 font-medium">
+                  <span>{cat.count}</span>
+                  <span className="text-red-600 font-bold group-hover:translate-x-1 transition-transform">→</span>
+                </div>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* 4. Featured Products */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 border-b border-slate-100 pb-4">
+      {/* 3. FEATURED PRODUCTS SECTION */}
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
           <div>
-            <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-widest">Handpicked Essentials</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Featured Products</h2>
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                Featured Products
+              </h2>
+            </div>
+            <p className="text-xs text-slate-500 mt-1 font-medium">
+              Top picks for a cleaner, healthier home.
+            </p>
           </div>
 
-          <div className="flex space-x-2 mt-4 sm:mt-0 bg-slate-100 p-1.5 rounded-2xl">
-            <button
-              onClick={() => setActiveTab('featured')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'featured' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
-            >
-              Featured
-            </button>
-            <button
-              onClick={() => setActiveTab('bestsellers')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'bestsellers' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
-            >
-              Best Sellers
-            </button>
-            <button
-              onClick={() => setActiveTab('new')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeTab === 'new' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
-            >
-              New Arrivals
-            </button>
-          </div>
+          <Link
+            to="/shop"
+            className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center space-x-1 group"
+          >
+            <span>View All Products</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          {products.slice(0, 6).map((prod) => (
             <ProductCard
-              key={product._id}
-              product={product}
+              key={prod._id}
+              product={prod}
               onQuickView={(p) => setQuickViewProduct(p)}
             />
           ))}
         </div>
       </section>
 
-      {/* 5. Dedicated SHOE CARE Spotlight Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
-          <div className="lg:col-span-5 space-y-4">
-            <span className="px-3 py-1 bg-amber-400 text-slate-950 font-black text-[10px] uppercase rounded-full">
-              FOOTWEAR PRESERVATION
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight">
-              Kick Shoe Care — Restore & Polish Footwear
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              From white sneaker scuff removers (<strong className="text-emerald-400">Kick Whito</strong>) to wax polishes, shiner sponges, and horsehair buffing brushes.
+      {/* 4. MID PROMO BANNERS GRID */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-gradient-to-r from-red-50 via-rose-50/60 to-red-100/40 rounded-3xl p-6 sm:p-8 border border-red-100 flex items-center justify-between relative overflow-hidden shadow-sm">
+          <div className="space-y-3 max-w-xs z-10">
+            <h3 className="text-xl sm:text-2xl font-black text-red-600 leading-tight">
+              Expert Care for <br />
+              <span className="text-slate-900">Your Shoes</span>
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+              Keep your shoes clean, shiny and new with our premium shoe care range.
             </p>
             <Link
               to="/category/shoe-care"
-              className="inline-flex items-center px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold text-xs shadow-lg transition-all"
+              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
             >
-              <span>Explore Shoe Care Range</span>
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <span>Shop Shoe Care</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {shoeCareProducts.slice(0, 2).map((p) => (
-              <ProductCard key={p._id} product={p} onQuickView={(prod) => setQuickViewProduct(prod)} />
-            ))}
+          <div className="w-36 sm:w-44 aspect-square relative shrink-0">
+            <img
+              src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80"
+              alt="Shoe Care Products"
+              className="w-full h-full object-contain"
+            />
           </div>
-
-        </div>
-      </section>
-
-      {/* 6. Dedicated HOME CLEANING & LAUNDRY Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between mb-8">
-          <div>
-            <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-widest">Hygiene & Whitening</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Home Cleaning & Laundry Care</h2>
-          </div>
-          <Link to="/category/home-cleaning" className="text-xs font-bold text-emerald-600 hover:underline">View All →</Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {homeCleaningProducts.map((p) => (
-            <ProductCard key={p._id} product={p} onQuickView={(prod) => setQuickViewProduct(prod)} />
-          ))}
-        </div>
-      </section>
-
-      {/* 7. Dedicated MOSQUITO PROTECTION Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 border border-slate-800 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-          <div className="space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <Bug className="w-5 h-5" />
-            </div>
-            <h3 className="text-2xl font-black text-white">45-Night Mosquito Protection</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Odorless electric refills and skin-safe aloe vera lotions for continuous family safety against dengue mosquitoes.
+        <div className="bg-gradient-to-r from-sky-50 via-blue-50/60 to-sky-100/40 rounded-3xl p-6 sm:p-8 border border-sky-100 flex items-center justify-between relative overflow-hidden shadow-sm">
+          <div className="space-y-3 max-w-xs z-10">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
+              Powerful Cleaning <br />
+              <span className="text-red-600">for a Healthier Home</span>
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+              Discover our home cleaning range for a spotless home.
             </p>
-            <Link to="/category/mosquito-protection" className="inline-block px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-xs">
-              Shop Insect Repellents
+            <Link
+              to="/category/home-cleaning"
+              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
+            >
+              <span>Explore Home Cleaning</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {mosquitoProducts.map((p) => (
-              <ProductCard key={p._id} product={p} onQuickView={(prod) => setQuickViewProduct(prod)} />
-            ))}
+          <div className="w-36 sm:w-44 aspect-square relative shrink-0">
+            <img
+              src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80"
+              alt="Home Cleaning Products"
+              className="w-full h-full object-contain"
+            />
           </div>
         </div>
       </section>
 
-      {/* 8. Our Best Sellers Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between mb-8">
+      {/* 5. WHY CHOOSE US & WHAT OUR CUSTOMERS SAY */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="lg:col-span-7 space-y-6">
           <div>
-            <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-widest">Customer Favorites</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Our Best Sellers</h2>
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
+              <h2 className="text-xl font-black text-slate-900">Why Choose Us</h2>
+            </div>
+            <p className="text-xs text-slate-500 mt-1 font-medium">
+              Your trust inspires us to do better every day.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+              <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-slate-900">Trusted Quality</h4>
+                <p className="text-[11px] text-slate-500 mt-0.5">Premium products you can rely on.</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+              <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-slate-900">Effective Products</h4>
+                <p className="text-[11px] text-slate-500 mt-0.5">Designed for real results.</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+              <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
+                <Truck className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-slate-900">Fast Delivery</h4>
+                <p className="text-[11px] text-slate-500 mt-0.5">Across Pakistan.</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+              <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
+                <Headphones className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-slate-900">Customer Satisfaction</h4>
+                <p className="text-[11px] text-slate-500 mt-0.5">We're here to help.</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {bestSellers.map((p) => (
-            <ProductCard key={p._id} product={p} onQuickView={(prod) => setQuickViewProduct(prod)} />
-          ))}
+        <div className="lg:col-span-5 space-y-6">
+          <div>
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-6 bg-red-600 rounded-full"></span>
+              <h2 className="text-xl font-black text-slate-900">What Our Customers Say</h2>
+            </div>
+            <p className="text-xs text-slate-500 mt-1 font-medium">
+              Real feedback from real customers.
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 relative space-y-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-11 h-11 rounded-full bg-red-100 border border-red-200 overflow-hidden shrink-0 flex items-center justify-center font-bold text-red-600 text-sm">
+                AK
+              </div>
+              <div>
+                <div className="flex items-center text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-600 italic font-medium leading-relaxed">
+              "Kick products are amazing! My shoes have never looked this clean. Highly recommended!"
+            </p>
+
+            <div className="flex items-center justify-between pt-2 border-t border-slate-200/60">
+              <div>
+                <h5 className="text-xs font-bold text-slate-900">Ayesha Khan</h5>
+                <span className="text-[10px] text-slate-400">Lahore</span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600">
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600">
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* 9. Why Choose Us */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <div className="text-center max-w-xl mx-auto mb-12">
-          <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-widest">Brand Assurance</span>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Why Choose Kick Home Care?</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/70 shadow-card text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2 font-bold">
-              <Award className="w-6 h-6" />
-            </div>
-            <h3 className="text-sm font-bold text-slate-900">Trusted Quality</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">Formulated with concentrated active ingredients for peak cleaning power.</p>
+      {/* 6. NEWSLETTER BANNER */}
+      <section className="bg-red-50/60 rounded-3xl p-6 sm:p-10 border border-red-100 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+            <Mail className="w-6 h-6" />
           </div>
 
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/70 shadow-card text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2 font-bold">
-              <Zap className="w-6 h-6" />
-            </div>
-            <h3 className="text-sm font-bold text-slate-900">Effective Products</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">Instant whitening scuff removal for shoes and 15-minute liquid drain clog clearing.</p>
-          </div>
-
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/70 shadow-card text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2 font-bold">
-              <Truck className="w-6 h-6" />
-            </div>
-            <h3 className="text-sm font-bold text-slate-900">Fast Delivery</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">Prompt courier delivery to Lahore, Karachi, Islamabad, and across Pakistan.</p>
-          </div>
-
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/70 shadow-card text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2 font-bold">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <h3 className="text-sm font-bold text-slate-900">Customer Satisfaction</h3>
-            <p className="text-xs text-slate-500 leading-relaxed">Dedicated support team ensuring smooth shopping and cash on delivery verification.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 10. Customer Reviews */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-widest">Verified Feedback</span>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">What Customers Say</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/70 shadow-sm space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="font-bold text-slate-900 text-xs">Rayyan Ansari</span>
-              <div className="flex text-amber-400">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
-              </div>
-            </div>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              "Kick Whito worked like magic on my white Adidas sneakers! Removed dirty scuffs in 2 minutes. Highly recommend!"
+          <div>
+            <h3 className="text-base sm:text-lg font-black text-slate-900">
+              Subscribe to Our Newsletter
+            </h3>
+            <p className="text-xs text-slate-500 font-medium">
+              Get the latest updates, offers and home care tips.
             </p>
-            <span className="text-[10px] text-emerald-700 font-bold block">Purchased: Kick Whito White Sneaker Cleaner</span>
           </div>
+        </div>
 
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/70 shadow-sm space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="font-bold text-slate-900 text-xs">Saman Malik</span>
-              <div className="flex text-amber-400">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
-              </div>
-            </div>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              "Best liquid bleach in Pakistan. Bleached my white bedsheets without damaging fabric fibers or making them yellow."
+        <div className="w-full md:w-auto flex-1 max-w-md">
+          <form onSubmit={handleSubscribe} className="flex items-center gap-2">
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              value={newsletterEmail}
+              onChange={(e) => setNewsletterEmail(e.target.value)}
+              required
+              className="w-full py-2.5 px-4 bg-white text-xs rounded-full border border-slate-200 focus:outline-none focus:border-red-500 placeholder:text-slate-400"
+            />
+            <button
+              type="submit"
+              className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-sm"
+            >
+              Subscribe
+            </button>
+          </form>
+          {newsletterStatus && (
+            <p className="text-[11px] text-red-600 font-bold mt-1 text-center md:text-left">
+              {newsletterStatus}
             </p>
-            <span className="text-[10px] text-emerald-700 font-bold block">Purchased: Kick Bleach Liquid Ultra Clean</span>
-          </div>
+          )}
+        </div>
+
+        <div className="hidden lg:block font-serif italic text-2xl font-bold text-red-600 rotate-[-8deg]">
+          Stay Updated
         </div>
       </section>
 

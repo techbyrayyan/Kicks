@@ -1,138 +1,185 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, ShieldCheck, Truck, RefreshCw, Award, Send } from 'lucide-react';
+import { Facebook, Instagram, Youtube, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-slate-950 text-slate-300 pt-16 pb-8 border-t border-slate-900 mt-20">
-      
-      {/* Brand Value Props Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 mb-12 border-b border-slate-900">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-              <Award className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-white">Quality Formulations</h4>
-              <p className="text-xs text-slate-400">100% authentic Kick products</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-              <Truck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-white">Fast Nationwide Delivery</h4>
-              <p className="text-xs text-slate-400">Courier delivery across Pakistan</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-              <RefreshCw className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-white">Easy Returns</h4>
-              <p className="text-xs text-slate-400">Hassle-free 7 day replacement</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-white">Cash on Delivery</h4>
-              <p className="text-xs text-slate-400">Safe payment upon doorstep arrival</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12">
+    <footer className="bg-[#0B1D33] text-gray-300 font-sans pt-14 pb-6 mt-16 border-t border-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Brand Column */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-black text-lg">
-              K
+        {/* Main 5-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
+          
+          {/* Column 1: Brand Info */}
+          <div className="space-y-4">
+            <Link to="/" className="flex flex-col inline-block">
+              <span className="text-3xl font-black italic tracking-tighter text-red-600">
+                KICK<sup className="text-xs font-bold text-red-500 not-italic ml-0.5">®</sup>
+              </span>
+              <span className="text-[10px] font-bold text-gray-400 tracking-wider uppercase -mt-1">
+                Home Care
+              </span>
+            </Link>
+            
+            <p className="text-xs text-gray-400 leading-relaxed">
+              Kara Asani Zindagi Main
+            </p>
+
+            {/* Social Icons */}
+            <div className="flex items-center space-x-3 pt-2">
+              <a href="#" className="w-8 h-8 rounded-full bg-slate-800 hover:bg-red-600 text-gray-300 hover:text-white flex items-center justify-center transition-colors">
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a href="#" className="w-8 h-8 rounded-full bg-slate-800 hover:bg-red-600 text-gray-300 hover:text-white flex items-center justify-center transition-colors">
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a href="#" className="w-8 h-8 rounded-full bg-slate-800 hover:bg-red-600 text-gray-300 hover:text-white flex items-center justify-center transition-colors">
+                <Youtube className="w-4 h-4" />
+              </a>
+              <a href="#" className="w-8 h-8 rounded-full bg-slate-800 hover:bg-red-600 text-gray-300 hover:text-white flex items-center justify-center transition-colors">
+                <Linkedin className="w-4 h-4" />
+              </a>
             </div>
-            <span className="text-xl font-bold tracking-tight text-white">
-              KICK <span className="text-emerald-500">CARE</span>
-            </span>
           </div>
-          <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-            Kick Home Care is Pakistan's premier brand for home cleaning, surface hygiene, bleach whitening, drain opener solutions, and shoe care essentials. Kara Asani Zindagi Main.
-          </p>
-          <div className="pt-2 text-xs text-slate-400 space-y-2">
-            <div className="flex items-start space-x-2">
-              <MapPin className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-              <span>First Floor 1-F Block, Main Gulshan-e-Ravi, Lahore, Pakistan</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Phone className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span>+92 321 000 9008</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Mail className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span>info@kickhomecare.com</span>
-            </div>
+
+          {/* Column 2: Quick Links */}
+          <div>
+            <h4 className="text-xs font-extrabold text-white uppercase tracking-wider mb-4">
+              Quick Links
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link to="/about" className="text-gray-400 hover:text-red-500 transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/shop" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Shop
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Customer Care */}
+          <div>
+            <h4 className="text-xs font-extrabold text-white uppercase tracking-wider mb-4">
+              Customer Care
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link to="/account" className="text-gray-400 hover:text-red-500 transition-colors">
+                  My Account
+                </Link>
+              </li>
+              <li>
+                <Link to="/account" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Orders
+                </Link>
+              </li>
+              <li>
+                <Link to="/wishlist" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Wishlist
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Shipping
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Returns
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Categories */}
+          <div>
+            <h4 className="text-xs font-extrabold text-white uppercase tracking-wider mb-4">
+              Categories
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link to="/category/shoe-care" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Shoe Care
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/laundry-care" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Laundry Care
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/home-cleaning" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Home Cleaning
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/dish-care" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Bath Care
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/drain-care" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Drain Care
+                </Link>
+              </li>
+              <li>
+                <Link to="/category/mosquito-protection" className="text-gray-400 hover:text-red-500 transition-colors">
+                  Mosquito Protection
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 5: Contact Us */}
+          <div>
+            <h4 className="text-xs font-extrabold text-white uppercase tracking-wider mb-4">
+              Contact Us
+            </h4>
+            <ul className="space-y-3 text-xs text-gray-400">
+              <li className="flex items-center space-x-2">
+                <Mail className="w-4 h-4 text-red-500 shrink-0" />
+                <span>info@kickhomecare.com</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <Phone className="w-4 h-4 text-red-500 shrink-0" />
+                <span>+92 300 1234567</span>
+              </li>
+              <li className="flex items-start space-x-2">
+                <MapPin className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                <span>123 Main Street, Lahore Pakistan</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* Bottom Copyright Bar */}
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-500 space-y-3 md:space-y-0">
+          <p>© 2025 KICK Home Care. All rights reserved.</p>
+          <div className="flex items-center space-x-6">
+            <Link to="/contact" className="hover:text-gray-300 transition-colors">
+              Privacy Policy
+            </Link>
+            <span>|</span>
+            <Link to="/contact" className="hover:text-gray-300 transition-colors">
+              Terms & Conditions
+            </Link>
+            <span>|</span>
+            <Link to="/contact" className="hover:text-gray-300 transition-colors">
+              Refund Policy
+            </Link>
           </div>
         </div>
 
-        {/* Quick Links */}
-        <div className="space-y-3">
-          <h4 className="text-sm font-semibold text-white uppercase tracking-wider">Shopping</h4>
-          <ul className="space-y-2 text-xs text-slate-400">
-            <li><Link to="/shop" className="hover:text-emerald-400 transition-colors">All Products</Link></li>
-            <li><Link to="/category/home-cleaning-laundry" className="hover:text-emerald-400 transition-colors">Bleach & Dishwash</Link></li>
-            <li><Link to="/category/shoe-care-essentials" className="hover:text-emerald-400 transition-colors">Shoe Care & Whito</Link></li>
-            <li><Link to="/category/bathroom-drain-care" className="hover:text-emerald-400 transition-colors">Drain Openers</Link></li>
-            <li><Link to="/category/pest-control-protection" className="hover:text-emerald-400 transition-colors">Pest Repellents</Link></li>
-          </ul>
-        </div>
-
-        {/* Account & Help */}
-        <div className="space-y-3">
-          <h4 className="text-sm font-semibold text-white uppercase tracking-wider">Account & Policies</h4>
-          <ul className="space-y-2 text-xs text-slate-400">
-            <li><Link to="/account" className="hover:text-emerald-400 transition-colors">My Account</Link></li>
-            <li><Link to="/account/orders" className="hover:text-emerald-400 transition-colors">Order Tracking</Link></li>
-            <li><Link to="/privacy-policy" className="hover:text-emerald-400 transition-colors">Privacy Policy</Link></li>
-            <li><Link to="/terms" className="hover:text-emerald-400 transition-colors">Terms & Conditions</Link></li>
-            <li><Link to="/refund-policy" className="hover:text-emerald-400 transition-colors">Refund & Return Policy</Link></li>
-            <li><Link to="/shipping-policy" className="hover:text-emerald-400 transition-colors">Shipping Policy</Link></li>
-          </ul>
-        </div>
-
-        {/* Newsletter Subscription */}
-        <div className="space-y-3">
-          <h4 className="text-sm font-semibold text-white uppercase tracking-wider">Join Newsletter</h4>
-          <p className="text-xs text-slate-400">Subscribe for exclusive discount coupons and home care tips.</p>
-          <form className="space-y-2" onSubmit={(e) => { e.preventDefault(); alert('Thank you for subscribing to Kick Home Care!'); }}>
-            <div className="relative">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                required
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:border-emerald-500 outline-none"
-              />
-              <button type="submit" className="absolute right-1 top-1 bottom-1 px-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors flex items-center justify-center">
-                <Send className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </form>
-        </div>
-
-      </div>
-
-      {/* Copyright */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
-        <p>© {new Date().getFullYear()} Kick Home Care. All rights reserved. Redesigned MERN E-Commerce.</p>
-        <p className="mt-2 md:mt-0">Designed for conversion, speed, and premium user experience.</p>
       </div>
     </footer>
   );
