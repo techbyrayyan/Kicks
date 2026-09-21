@@ -13,10 +13,7 @@ import {
   X,
   ChevronDown,
   Truck,
-  HelpCircle,
-  Phone,
-  LogOut,
-  ShieldCheck
+  LogOut
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
@@ -36,7 +33,6 @@ const Header = () => {
   const { user, logout, isAdmin } = useAuth();
   const { itemCount, setIsDrawerOpen } = useCart();
   const { wishlistCount } = useWishlist();
-  const { compareCount } = useCompare();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
@@ -102,11 +98,11 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full bg-white font-sans sticky top-0 z-50 border-b border-gray-100 shadow-sm">
+    <header className="w-full bg-white font-sans sticky top-0 z-50 border-b border-gray-100 shadow-xs">
       
-      {/* 1. Top Announcement Bar - FULL WIDTH */}
-      <div className="bg-gray-50 border-b border-gray-200 py-1.5 px-4 sm:px-6 lg:px-8 text-xs font-medium text-gray-600 w-full">
-        <div className="w-full flex items-center justify-between">
+      {/* 1. Top Announcement Bar */}
+      <div className="bg-gray-50 border-b border-gray-200 py-1.5 px-4 text-xs font-medium text-gray-600">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           
           {/* Left Announcement */}
           <div className="flex items-center space-x-2">
@@ -131,8 +127,8 @@ const Header = () => {
         </div>
       </div>
 
-      {/* 2. Main Header Row (Logo, Search, Actions) - FULL WIDTH */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+      {/* 2. Main Header Row (Logo, Search, Actions) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
         
         {/* Mobile Hamburger */}
         <button
@@ -257,9 +253,9 @@ const Header = () => {
         </div>
       </div>
 
-      {/* 3. Navigation Bar Links - FULL WIDTH */}
-      <nav className="border-t border-gray-100 hidden lg:block bg-white w-full">
-        <div className="w-full px-4 sm:px-6 lg:px-8 flex items-center space-x-8 text-xs font-bold uppercase tracking-wider">
+      {/* 3. Navigation Bar Links */}
+      <nav className="border-t border-gray-100 hidden lg:block bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center space-x-8 text-xs font-bold uppercase tracking-wider">
           
           {/* Home Link */}
           <Link
