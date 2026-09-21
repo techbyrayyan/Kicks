@@ -404,13 +404,14 @@ const Home = () => {
             />
 
             {/* Content Overlay */}
-            <div className="relative z-10 p-6 sm:p-8 max-w-xs space-y-3">
+            <div className="relative z-10 p-6 sm:p-8 max-w-[230px] space-y-3">
               <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
                 Expert Care for <br />
                 <span className="text-red-600">Your Shoes</span>
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Keep your shoes clean, shiny and new with our premium shoe care range.
+                Keep your shoes clean, shiny and new <br />
+                with our premium shoe care range.
               </p>
               <Link
                 to="/category/shoe-care"
@@ -434,13 +435,14 @@ const Home = () => {
             />
 
             {/* Content Overlay */}
-            <div className="relative z-10 p-6 sm:p-8 max-w-xs space-y-3">
+            <div className="relative z-10 p-6 sm:p-8 max-w-[230px] space-y-3">
               <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
                 Powerful Cleaning <br />
                 <span className="text-slate-900">for a Healthier Home</span>
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Discover our home cleaning range for a spotless home.
+                Discover our home cleaning range <br />
+                for a spotless home.
               </p>
               <Link
                 to="/category/home-cleaning"
