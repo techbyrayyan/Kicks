@@ -561,7 +561,7 @@ const Home = () => {
         </section>
 
         {/* 6. NEWSLETTER BANNER */}
-      <section className="relative rounded-3xl overflow-hidden min-h-[200px] sm:min-h-[220px] flex items-center bg-white border border-slate-100 shadow-sm">
+      <section className="relative rounded-3xl overflow-hidden min-h-[180px] sm:min-h-[200px] flex items-center bg-white border border-slate-100 shadow-sm">
         
         {/* Background Image: img4.jpeg */}
         <img
@@ -570,48 +570,22 @@ const Home = () => {
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
 
-        {/* Overlaid Content Container */}
-        <div className="relative z-10 w-full p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Overlaid Content Container (Centered) */}
+        <div className="relative z-10 w-full p-6 sm:p-10 flex flex-col items-center justify-center text-center space-y-3">
           
-          {/* Left / Center Text & Icon Block */}
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 shadow-md">
-              <Mail className="w-6 h-6" />
-            </div>
-
-            <div>
-              <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
-                Subscribe to Our Newsletter
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
-                Get the latest updates, offers and home care tips.
-              </p>
-            </div>
+          {/* Red Circle Mail Icon */}
+          <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 shadow-md">
+            <Mail className="w-6 h-6" />
           </div>
 
-          {/* Form */}
-          <div className="w-full md:w-auto flex-1 max-w-md">
-            <form onSubmit={handleSubscribe} className="flex items-center gap-2">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-                required
-                className="w-full py-2.5 px-4 bg-white text-xs rounded-full border border-slate-300 focus:outline-none focus:border-red-500 placeholder:text-slate-400 shadow-sm"
-              />
-              <button
-                type="submit"
-                className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-sm"
-              >
-                Subscribe
-              </button>
-            </form>
-            {newsletterStatus && (
-              <p className="text-[11px] text-red-600 font-bold mt-1 text-center md:text-left">
-                {newsletterStatus}
-              </p>
-            )}
+          {/* Centered Text Block */}
+          <div className="max-w-md">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              Subscribe to Our Newsletter
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1">
+              Get the latest updates, offers and home care tips.
+            </p>
           </div>
 
         </div>
