@@ -396,9 +396,9 @@ const Home = () => {
           {/* Banner 1: Shoe Care */}
           <div className="relative rounded-3xl overflow-hidden border border-slate-100 min-h-[220px] sm:min-h-[250px] flex items-center bg-white shadow-sm group">
             
-            {/* Background Image: promo-shoe.jpg */}
+            {/* Background Image: img5.png */}
             <img
-              src="/promo-shoe.jpg"
+              src="/img5.png"
               alt="Expert Care for Your Shoes"
               className="absolute inset-0 w-full h-full object-cover object-right"
             />
