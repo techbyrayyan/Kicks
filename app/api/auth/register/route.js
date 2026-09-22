@@ -15,17 +15,19 @@ export async function POST(req) {
       );
     }
 
-    const userExists = await User.findOne({ email });
+    const cleanEmail = email ? email.trim().toLowerCase() : '';
+
+    const userExists = await User.findOne({ email: cleanEmail });
     if (userExists) {
       return NextResponse.json(
-        { success: false, message: 'User with this email already exists' },
+        { success: false, message: 'An account with this email already exists. Please sign in.' },
         { status: 400 }
       );
     }
 
     const user = await User.create({
       name,
-      email,
+      email: cleanEmail,
       password,
       phone: phone || ''
     });

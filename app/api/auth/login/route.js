@@ -15,10 +15,20 @@ export async function POST(req) {
       );
     }
 
-    const user = await User.findOne({ email });
-    if (!user || !(await user.matchPassword(password))) {
+    const cleanEmail = email ? email.trim().toLowerCase() : '';
+
+    const user = await User.findOne({ email: cleanEmail });
+    if (!user) {
       return NextResponse.json(
-        { success: false, message: 'Invalid email or password' },
+        { success: false, message: 'No account found with this email. Please click "Create One" to register.' },
+        { status: 404 }
+      );
+    }
+
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+      return NextResponse.json(
+        { success: false, message: 'Incorrect password. Please try again.' },
         { status: 401 }
       );
     }
