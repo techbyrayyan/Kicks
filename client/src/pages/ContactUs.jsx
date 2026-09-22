@@ -63,52 +63,6 @@ const ContactUs = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-800 font-sans">
 
-      {/* 1. HERO BANNER SECTION (FULL WIDTH) */}
-      <section className="relative w-full overflow-hidden min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] flex items-center bg-white border-b border-slate-100">
-        
-        {/* Background Image: kick.jpeg */}
-        <img
-          src="/kick.jpeg"
-          alt="Contact KICK Home Care"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-
-        {/* Overlaid Content Container */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 p-6 sm:p-10 lg:p-12 flex flex-col justify-between min-h-[380px] sm:min-h-[440px] lg:min-h-[480px]">
-          
-          <div className="max-w-xl space-y-4 pt-4">
-            
-            {/* Red Pill Badge */}
-            <div className="inline-block px-3.5 py-1 bg-red-600 text-white rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider shadow-sm">
-              WE'RE HERE TO HELP
-            </div>
-
-            {/* Main Title */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.08]">
-              Contact Us
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed max-w-md">
-              Have a question, suggestion or need assistance? Our team is always here to help. Get in touch with us and we'll be happy to assist you.
-            </p>
-          </div>
-
-          {/* Cursive Scripts */}
-          <div className="flex items-center justify-between pt-4">
-            <span className="hidden sm:block font-serif italic text-2xl lg:text-3xl font-bold text-red-600 rotate-[-6deg]">
-              Cleaner Home, Happier You
-            </span>
-
-            <span className="self-end hidden lg:block font-serif italic text-2xl lg:text-3xl font-bold text-red-600 rotate-[4deg]">
-              Powerful Cleaning Care
-            </span>
-          </div>
-
-        </div>
-
-      </section>
-
       {/* MAIN CONTENT CONTAINER */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20 space-y-16 w-full">
         
