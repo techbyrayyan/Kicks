@@ -53,12 +53,14 @@ export default function ContactPage() {
         setStatusMsg(data.message || 'Failed to send message.');
       }
     } catch (err) {
-      setStatusMsg('Thank you! Your message has been sent successfully.');
-      setName('');
-      setEmail('');
-      setPhone('');
-      setSubject('');
-      setMessage('');
+      setStatusMsg(err.response?.data?.message || 'Thank you! Your message has been recorded.');
+      if (err.response?.data?.success) {
+        setName('');
+        setEmail('');
+        setPhone('');
+        setSubject('');
+        setMessage('');
+      }
     } finally {
       setLoading(false);
     }
