@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import {
   ArrowRight,
   ShieldCheck,
@@ -12,6 +14,8 @@ import {
   Heart,
   CheckCircle2
 } from 'lucide-react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const CATEGORIES_DATA = [
   {
@@ -64,14 +68,15 @@ const CATEGORIES_DATA = [
   }
 ];
 
-const AboutUs = () => {
+export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-800 font-sans">
+      <Header />
 
-      {/* 1. HERO BANNER SECTION (FULL WIDTH) */}
+      {/* 1. HERO BANNER SECTION (FULL WIDTH - ATTACHED DIRECTLY TO HEADER) */}
       <section className="relative w-full overflow-hidden min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] flex items-center bg-white border-b border-slate-100">
         
-        {/* Background Image: kick.jpeg */}
+        {/* Background Image: kick.jpeg (Edge-to-Edge) */}
         <img
           src="/kick.jpeg"
           alt="About KICK Home Care"
@@ -133,7 +138,7 @@ const AboutUs = () => {
 
             <div className="pt-2">
               <Link
-                to="/shop"
+                href="/shop"
                 className="inline-flex items-center space-x-2 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
               >
                 <span>Our Products</span>
@@ -294,7 +299,7 @@ const AboutUs = () => {
             </div>
 
             <Link
-              to="/shop"
+              href="/shop"
               className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center space-x-1 group"
             >
               <span>Explore All Categories</span>
@@ -306,7 +311,7 @@ const AboutUs = () => {
             {CATEGORIES_DATA.map((cat) => (
               <Link
                 key={cat.slug}
-                to={`/category/${cat.slug}`}
+                href={`/category/${cat.slug}`}
                 className={`group p-4 rounded-2xl border ${cat.borderColor} ${cat.bgColor} hover:shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden`}
               >
                 <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 bg-white p-2 border border-slate-100 flex items-center justify-center">
@@ -468,7 +473,7 @@ const AboutUs = () => {
               Choose KICK Home Care for a cleaner, healthier and happier home — because you deserve the best.
             </p>
             <Link
-              to="/shop"
+              href="/shop"
               className="inline-flex items-center space-x-2 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs uppercase tracking-wider transition-colors shadow-sm"
             >
               <span>Shop Now</span>
@@ -480,8 +485,7 @@ const AboutUs = () => {
 
       </main>
 
+      <Footer />
     </div>
   );
-};
-
-export default AboutUs;
+}

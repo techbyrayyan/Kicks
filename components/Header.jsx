@@ -309,8 +309,12 @@ const Header = () => {
 
           {/* About Us Link */}
           <Link
-            href="/contact"
-            className="py-3.5 border-b-2 border-transparent text-gray-700 hover:text-red-600 transition-colors"
+            href="/about"
+            className={`py-3.5 border-b-2 transition-colors ${
+              pathname === '/about'
+                ? 'border-red-600 text-red-600 font-extrabold'
+                : 'border-transparent text-gray-700 hover:text-red-600'
+            }`}
           >
             About Us
           </Link>
@@ -355,7 +359,7 @@ const Header = () => {
                 • {c.name}
               </Link>
             ))}
-            <Link href="/contact" className="py-2 hover:text-red-600 border-b border-gray-100">
+            <Link href="/about" className="py-2 hover:text-red-600 border-b border-gray-100">
               About Us
             </Link>
             <Link href="/contact" className="py-2 hover:text-red-600">
