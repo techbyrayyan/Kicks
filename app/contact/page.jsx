@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import {
   Mail,
@@ -66,9 +65,8 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-800 font-sans">
-      <Header />
 
-      {/* 1. HERO BANNER SECTION (FULL WIDTH - ATTACHED DIRECTLY TO HEADER) */}
+      {/* 1. HERO BANNER SECTION (FULL WIDTH) */}
       <section className="relative w-full overflow-hidden min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] flex items-center bg-white border-b border-slate-100">
         
         {/* Background Image: kick.jpeg (Edge-to-Edge) */}
