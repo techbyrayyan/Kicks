@@ -70,9 +70,9 @@ function ShopContent() {
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         {/* Page Title */}
-        <div className="bg-gradient-to-r from-slate-900 to-emerald-950 text-white rounded-3xl p-8 mb-8 shadow-lg">
+        <div className="bg-gradient-to-r from-slate-900 to-red-950 text-white rounded-3xl p-8 mb-8 shadow-lg">
           <h1 className="text-3xl font-black">All Kick Products Catalog</h1>
-          <p className="text-xs text-slate-300 mt-1">Browse Pakistan's premier home care & shoe maintenance formulations.</p>
+          <p className="text-xs text-slate-300 mt-1 font-medium">Browse Pakistan's premier home care & shoe maintenance formulations.</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -80,14 +80,14 @@ function ShopContent() {
           <aside className="w-full lg:w-64 space-y-6">
             <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm">
               <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <Filter className="w-4 h-4 text-emerald-600" />
+                <Filter className="w-4 h-4 text-red-600" />
                 <span>Categories</span>
               </h3>
 
               <div className="space-y-2 text-xs font-semibold">
                 <button
                   onClick={() => setSelectedCategory('all')}
-                  className={`w-full text-left px-3 py-2 rounded-xl transition-all ${selectedCategory === 'all' ? 'bg-emerald-600 text-white font-bold' : 'text-slate-600 hover:bg-slate-100'}`}
+                  className={`w-full text-left px-3.5 py-2.5 rounded-xl transition-all ${selectedCategory === 'all' ? 'bg-red-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-100'}`}
                 >
                   All Products
                 </button>
@@ -95,7 +95,7 @@ function ShopContent() {
                   <button
                     key={c.slug}
                     onClick={() => setSelectedCategory(c.slug)}
-                    className={`w-full text-left px-3 py-2 rounded-xl transition-all ${selectedCategory === c.slug ? 'bg-emerald-600 text-white font-bold' : 'text-slate-600 hover:bg-slate-100'}`}
+                    className={`w-full text-left px-3.5 py-2.5 rounded-xl transition-all ${selectedCategory === c.slug ? 'bg-red-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:bg-slate-100'}`}
                   >
                     {c.name}
                   </button>
@@ -109,7 +109,7 @@ function ShopContent() {
             {/* Top Toolbar */}
             <div className="bg-white rounded-2xl p-4 border border-slate-200/80 mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
               <div className="text-xs font-bold text-slate-600">
-                Showing <span className="text-emerald-600">{products.length}</span> items
+                Showing <span className="text-red-600">{products.length}</span> items
               </div>
 
               <div className="flex items-center space-x-3 w-full sm:w-auto">
@@ -117,7 +117,7 @@ function ShopContent() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold px-3 py-2 outline-none focus:border-emerald-500"
+                  className="bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold px-3 py-2 outline-none focus:border-red-500"
                 >
                   <option value="default">Newest Arrivals</option>
                   <option value="price-low">Price: Low to High</option>
@@ -133,7 +133,7 @@ function ShopContent() {
             ) : products.length === 0 ? (
               <div className="bg-white rounded-3xl p-12 text-center border border-slate-200">
                 <p className="text-base font-bold text-slate-700">No products found for this filter.</p>
-                <button onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }} className="mt-4 px-5 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl">Reset Filters</button>
+                <button onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }} className="mt-4 px-5 py-2 bg-red-600 text-white text-xs font-bold rounded-xl shadow-sm">Reset Filters</button>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">

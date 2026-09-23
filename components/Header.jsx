@@ -322,7 +322,11 @@ const Header = () => {
           {/* Contact Link */}
           <Link
             href="/contact"
-            className="py-3.5 border-b-2 border-transparent text-gray-700 hover:text-red-600 transition-colors"
+            className={`py-3.5 border-b-2 transition-colors ${
+              pathname === '/contact'
+                ? 'border-red-600 text-red-600 font-extrabold'
+                : 'border-transparent text-gray-700 hover:text-red-600'
+            }`}
           >
             Contact
           </Link>
