@@ -508,7 +508,11 @@ export default function HomePage() {
             {/* 4 Feature Cards Grid */}
             <div className="grid grid-cols-2 gap-4">
               
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+              <motion.div
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+                className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3 hover:shadow-md transition-all cursor-default"
+              >
                 <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
@@ -516,9 +520,13 @@ export default function HomePage() {
                   <h4 className="text-xs font-bold text-slate-900">Trusted Quality</h4>
                   <p className="text-[11px] text-slate-500 mt-0.5">Premium products you can rely on.</p>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+              <motion.div
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+                className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3 hover:shadow-md transition-all cursor-default"
+              >
                 <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
                   <Sparkles className="w-5 h-5" />
                 </div>
@@ -526,9 +534,13 @@ export default function HomePage() {
                   <h4 className="text-xs font-bold text-slate-900">Effective Products</h4>
                   <p className="text-[11px] text-slate-500 mt-0.5">Designed for real results.</p>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+              <motion.div
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+                className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3 hover:shadow-md transition-all cursor-default"
+              >
                 <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
                   <Truck className="w-5 h-5" />
                 </div>
@@ -536,9 +548,13 @@ export default function HomePage() {
                   <h4 className="text-xs font-bold text-slate-900">Fast Delivery</h4>
                   <p className="text-[11px] text-slate-500 mt-0.5">Across Pakistan.</p>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3">
+              <motion.div
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+                className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start space-x-3 hover:shadow-md transition-all cursor-default"
+              >
                 <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
                   <Headphones className="w-5 h-5" />
                 </div>
@@ -546,7 +562,7 @@ export default function HomePage() {
                   <h4 className="text-xs font-bold text-slate-900">Customer Satisfaction</h4>
                   <p className="text-[11px] text-slate-500 mt-0.5">We're here to help.</p>
                 </div>
-              </div>
+              </motion.div>
 
             </div>
           </div>
@@ -564,7 +580,11 @@ export default function HomePage() {
             </div>
 
             {/* Testimonial Card */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 relative space-y-4">
+            <motion.div
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.3 }}
+              className="p-5 rounded-2xl bg-slate-50 border border-slate-100 relative space-y-4 hover:shadow-lg transition-all"
+            >
               
               <div className="flex items-center space-x-3">
                 <div className="w-11 h-11 rounded-full bg-red-100 border border-red-200 overflow-hidden shrink-0 flex items-center justify-center font-bold text-red-600 text-sm">
@@ -591,25 +611,39 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <button className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600">
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.1 }}
+                    className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600 transition-colors"
+                  >
                     <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600">
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.1 }}
+                    className="w-7 h-7 bg-white text-slate-600 rounded-full flex items-center justify-center border border-slate-200 shadow-sm hover:text-red-600 transition-colors"
+                  >
                     <ChevronRight className="w-4 h-4" />
-                  </button>
+                  </motion.button>
                 </div>
               </div>
 
-            </div>
+            </motion.div>
           </div>
 
         </section>
 
         {/* 6. NEWSLETTER BANNER */}
-        <section className="relative rounded-3xl overflow-hidden min-h-[180px] sm:min-h-[200px] flex items-center bg-white border border-slate-100 shadow-sm">
+        <motion.section
+          whileHover={{ scale: 1.005 }}
+          transition={{ duration: 0.3 }}
+          className="relative rounded-3xl overflow-hidden min-h-[180px] sm:min-h-[200px] flex items-center bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all"
+        >
           
           {/* Background Image: img4.jpeg */}
-          <img
+          <motion.img
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.5 }}
             src="/img4.jpeg"
             alt="Subscribe to Our Newsletter"
             className="absolute inset-0 w-full h-full object-cover object-center"
@@ -619,9 +653,13 @@ export default function HomePage() {
           <div className="relative z-10 w-full p-6 sm:p-10 flex flex-col items-center justify-center text-center space-y-3">
             
             {/* Red Circle Mail Icon */}
-            <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 shadow-md">
+            <motion.div
+              whileHover={{ scale: 1.15, rotate: 5 }}
+              whileTap={{ scale: 0.9 }}
+              className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0 shadow-md cursor-pointer"
+            >
               <Mail className="w-6 h-6" />
-            </div>
+            </motion.div>
 
             {/* Centered Text Block */}
             <div className="max-w-md">
@@ -635,7 +673,7 @@ export default function HomePage() {
 
           </div>
 
-        </section>
+        </motion.section>
 
       </main>
 
