@@ -199,10 +199,7 @@ export default function HomePage() {
       <section className="relative w-full overflow-hidden min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] flex items-center bg-white border-b border-slate-100">
         
         {/* Background Image: kick.jpeg (Edge-to-Edge) */}
-        <motion.img
-          initial={{ scale: 1.05, opacity: 0.8 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+        <img
           src="/kick.jpeg"
           alt="Kara Asani Zindagi Main"
           className="absolute inset-0 w-full h-full object-cover object-center"
@@ -212,12 +209,7 @@ export default function HomePage() {
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 p-6 sm:p-10 lg:p-12 flex flex-col justify-between min-h-[420px] sm:min-h-[480px] lg:min-h-[520px]">
           
           {/* Top Left Text Block */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-lg space-y-4 pt-2"
-          >
+          <div className="max-w-lg space-y-4 pt-2">
             
             {/* Red Pill Badge */}
             <motion.div
@@ -260,7 +252,7 @@ export default function HomePage() {
               </motion.div>
             </div>
 
-          </motion.div>
+          </div>
 
           {/* Bottom Row: 4 Feature Items (Left) + Carousel Arrows (Right) */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-6">
@@ -352,11 +344,8 @@ export default function HomePage() {
             {CATEGORIES_DATA.map((cat, index) => (
               <motion.div
                 key={cat.slug}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
                 whileHover={{ y: -5 }}
+                transition={{ duration: 0.2 }}
               >
                 <Link
                   href={`/category/${cat.slug}`}
@@ -428,11 +417,8 @@ export default function HomePage() {
           
           {/* Banner 1: Shoe Care */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
             whileHover={{ y: -4 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.3 }}
             className="relative rounded-3xl overflow-hidden border border-slate-100 min-h-[220px] sm:min-h-[250px] flex items-center bg-white shadow-sm hover:shadow-xl transition-all group"
           >
             
@@ -468,11 +454,8 @@ export default function HomePage() {
 
           {/* Banner 2: Home Cleaning */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
             whileHover={{ y: -4 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            transition={{ duration: 0.3 }}
             className="relative rounded-3xl overflow-hidden border border-slate-100 min-h-[220px] sm:min-h-[250px] flex items-center bg-white shadow-sm hover:shadow-xl transition-all group"
           >
             

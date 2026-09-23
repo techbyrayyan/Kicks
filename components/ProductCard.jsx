@@ -22,9 +22,6 @@ const ProductCard = ({ product, onQuickView }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className="group bg-white rounded-2xl border border-gray-100 p-3 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative"
