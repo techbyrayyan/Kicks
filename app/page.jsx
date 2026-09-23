@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import {
   ArrowRight,
   ShieldCheck,
@@ -194,11 +195,14 @@ export default function HomePage() {
         <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
       )}
 
-      {/* 1. HERO BANNER SECTION (FULL WIDTH - ATTACHED DIRECTLY TO HEADER WITH NO TOP/LEFT/RIGHT MARGINS) */}
+      {/* 1. HERO BANNER SECTION */}
       <section className="relative w-full overflow-hidden min-h-[420px] sm:min-h-[480px] lg:min-h-[520px] flex items-center bg-white border-b border-slate-100">
         
         {/* Background Image: kick.jpeg (Edge-to-Edge) */}
-        <img
+        <motion.img
+          initial={{ scale: 1.05, opacity: 0.8 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
           src="/kick.jpeg"
           alt="Kara Asani Zindagi Main"
           className="absolute inset-0 w-full h-full object-cover object-center"
@@ -208,12 +212,20 @@ export default function HomePage() {
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 p-6 sm:p-10 lg:p-12 flex flex-col justify-between min-h-[420px] sm:min-h-[480px] lg:min-h-[520px]">
           
           {/* Top Left Text Block */}
-          <div className="max-w-lg space-y-4 pt-2">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="max-w-lg space-y-4 pt-2"
+          >
             
             {/* Red Pill Badge */}
-            <div className="inline-block px-3.5 py-1 bg-red-600 text-white rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider shadow-sm">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="inline-block px-3.5 py-1 bg-red-600 text-white rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider shadow-md"
+            >
               PREMIUM HOME CARE PRODUCTS
-            </div>
+            </motion.div>
 
             {/* Main Title */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.08]">
@@ -228,23 +240,27 @@ export default function HomePage() {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Link
-                href="/shop"
-                className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs tracking-wide transition-colors flex items-center space-x-2 shadow-sm"
-              >
-                <span>Shop Now</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link
+                  href="/shop"
+                  className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-bold text-xs tracking-wide transition-colors flex items-center space-x-2 shadow-md shadow-red-600/30"
+                >
+                  <span>Shop Now</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </motion.div>
 
-              <Link
-                href="/shop"
-                className="px-6 py-2.5 bg-white border border-red-600 text-red-600 hover:bg-red-50 rounded-full font-bold text-xs tracking-wide transition-colors"
-              >
-                Explore Categories
-              </Link>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link
+                  href="/shop"
+                  className="px-6 py-2.5 bg-white border border-red-600 text-red-600 hover:bg-red-50 rounded-full font-bold text-xs tracking-wide transition-colors shadow-xs"
+                >
+                  Explore Categories
+                </Link>
+              </motion.div>
             </div>
 
-          </div>
+          </motion.div>
 
           {/* Bottom Row: 4 Feature Items (Left) + Carousel Arrows (Right) */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-6">
@@ -333,30 +349,40 @@ export default function HomePage() {
 
           {/* 6 Grid Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {CATEGORIES_DATA.map((cat) => (
-              <Link
+            {CATEGORIES_DATA.map((cat, index) => (
+              <motion.div
                 key={cat.slug}
-                href={`/category/${cat.slug}`}
-                className={`group p-4 rounded-2xl border ${cat.borderColor} ${cat.bgColor} hover:shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                whileHover={{ y: -5 }}
               >
-                <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 bg-white p-2 border border-slate-100 flex items-center justify-center">
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
-                  />
-                </div>
-
-                <div>
-                  <h3 className="text-xs font-bold text-slate-900 group-hover:text-red-600 transition-colors">
-                    {cat.name}
-                  </h3>
-                  <div className="flex items-center justify-between mt-1 text-[11px] text-slate-400 font-medium">
-                    <span>{cat.count}</span>
-                    <span className="text-red-600 font-bold group-hover:translate-x-1 transition-transform">→</span>
+                <Link
+                  href={`/category/${cat.slug}`}
+                  className={`group p-4 rounded-2xl border ${cat.borderColor} ${cat.bgColor} hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative overflow-hidden block h-full`}
+                >
+                  <div className="aspect-square w-full rounded-xl overflow-hidden mb-3 bg-white p-2 border border-slate-100 flex items-center justify-center">
+                    <motion.img
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                      src={cat.image}
+                      alt={cat.name}
+                      className="max-h-full max-w-full object-contain"
+                    />
                   </div>
-                </div>
-              </Link>
+
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-red-600 transition-colors">
+                      {cat.name}
+                    </h3>
+                    <div className="flex items-center justify-between mt-1 text-[11px] text-slate-400 font-medium">
+                      <span>{cat.count}</span>
+                      <span className="text-red-600 font-bold group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </section>
@@ -401,10 +427,19 @@ export default function HomePage() {
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* Banner 1: Shoe Care */}
-          <div className="relative rounded-3xl overflow-hidden border border-slate-100 min-h-[220px] sm:min-h-[250px] flex items-center bg-white shadow-sm group">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.4 }}
+            className="relative rounded-3xl overflow-hidden border border-slate-100 min-h-[220px] sm:min-h-[250px] flex items-center bg-white shadow-sm hover:shadow-xl transition-all group"
+          >
             
             {/* Background Image: img5.png */}
-            <img
+            <motion.img
+              whileHover={{ scale: 1.06 }}
+              transition={{ duration: 0.4 }}
               src="/img5.png"
               alt="Expert Care for Your Shoes"
               className="absolute inset-0 w-full h-full object-cover object-right"
@@ -429,13 +464,22 @@ export default function HomePage() {
               </Link>
             </div>
 
-          </div>
+          </motion.div>
 
           {/* Banner 2: Home Cleaning */}
-          <div className="relative rounded-3xl overflow-hidden border border-slate-100 min-h-[220px] sm:min-h-[250px] flex items-center bg-white shadow-sm group">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="relative rounded-3xl overflow-hidden border border-slate-100 min-h-[220px] sm:min-h-[250px] flex items-center bg-white shadow-sm hover:shadow-xl transition-all group"
+          >
             
             {/* Background Image: promo-clean.jpg */}
-            <img
+            <motion.img
+              whileHover={{ scale: 1.06 }}
+              transition={{ duration: 0.4 }}
               src="/promo-clean.jpg"
               alt="Powerful Cleaning for a Healthier Home"
               className="absolute inset-0 w-full h-full object-cover object-right"
@@ -459,7 +503,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-          </div>
+          </motion.div>
 
         </section>
 
