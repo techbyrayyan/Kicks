@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import ContactMessage from '@/models/ContactMessage';
 
+export const dynamic = 'force-dynamic';
+
 // POST /api/contact - Save contact form data to MongoDB
 export async function POST(req) {
   try {

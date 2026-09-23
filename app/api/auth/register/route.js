@@ -3,6 +3,8 @@ import connectDB from '@/lib/db';
 import User from '@/models/User';
 import { generateToken } from '@/lib/jwt';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req) {
   try {
     await connectDB();
@@ -47,8 +49,15 @@ export async function POST(req) {
       }
     });
   } catch (error) {
+    console.error('Registration API Error:', error);
+    const isConnErr = error.message?.includes('ECONNREFUSED') || error.message?.includes('selection timed out');
     return NextResponse.json(
-      { success: false, message: error.message },
+      {
+        success: false,
+        message: isConnErr
+          ? 'Database connection failed. Please ensure MONGODB_URI is set in Vercel Environment Variables.'
+          : error.message
+      },
       { status: 500 }
     );
   }
